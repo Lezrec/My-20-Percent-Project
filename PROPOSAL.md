@@ -1,6 +1,7 @@
 # Proposal: Twitch Chat Bot
 ## A bot that will read chat, and reply or act accordingly.
 Noah Guidara
+GitHub: Lezrec
 
 ## Needs and Opportunities
 With Twitch.tv becoming larger every day, there is an increasingly large need for moderator bots that make the chat experience better. A Twitch chat bot can timeout spam, blacklisted words, or even set up a contest or game that viewers can participate in.
