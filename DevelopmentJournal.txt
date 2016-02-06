@@ -1,0 +1,8 @@
+Development Journal for My 20 Percent Project
+Noah Guidara
+Week 1 (Friday, February 05, 2016):
+	Today I started out my 20% project by watching a YouTube video on the basics of creating a Twitch.tv chat bot, the logistics of actually seeing results of which will be difficult, as the school internet blocks the website. However, I can test at home with my own channel (which I will be omitting for the sake of privacy), and I can still develop in class on Fridays.
+	The fundamentals of the bot have been laid out mostly, as getting it to barely function is quite a menial task. All this requires is a TCP client connection and some other basic methods to connect to the server. In the upcoming Fridays, I’m going to tackle the vocabulary and inner workings of the bot code, as to understand what I am actually doing; copying doesn’t mean anything if you don’t know what it means.
+	My hopes for the project so far: Pretty high. The challenging part will be to debug and hard code in exceptions to everything, as the end user seems to break anything they touch. The end goal of this project is to get a bot that makes a channel chat better, and not to be there for the sake of having a bot.
+Total Word Count: 206
+
