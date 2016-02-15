@@ -5,4 +5,9 @@ Week 1 (Friday, February 05, 2016):
 	The fundamentals of the bot have been laid out mostly, as getting it to barely function is quite a menial task. All this requires is a TCP client connection and some other basic methods to connect to the server. In the upcoming Fridays, I’m going to tackle the vocabulary and inner workings of the bot code, as to understand what I am actually doing; copying doesn’t mean anything if you don’t know what it means.
 	My hopes for the project so far: Pretty high. The challenging part will be to debug and hard code in exceptions to everything, as the end user seems to break anything they touch. The end goal of this project is to get a bot that makes a channel chat better, and not to be there for the sake of having a bot.
 Total Word Count: 206
+Week 2 (Sunday, February 14, 2016):
+	Over the weekend I realized that I was doing some things completely wrong. So I re-watched what I did over on the 5th and figured out what I was doing wrong. Windows Form Applications have nifty toolbox items that allows someone to display or count time. Working from home also allowed me to test the simple ability to read and display what is going on in the chat (See Images Folder), and to my enjoyment, it worked.
+	My end goal is to understand the code, since understanding what you make is a good way to improve on what you make. Getting the functionality I want in this bot will take time and effort, which whether I want to or not, is essential to getting an awesome bot (and a good grade).
+	I will continue to cross-reference tutorials and other bots to see what functions they serve. A notable one, NightBot, can do many things. It can act like an automatic moderator, it can have keywords or commands and act accordingly, and it can run with other plugins to help the streamer.
+Total Word Count: 181
 
