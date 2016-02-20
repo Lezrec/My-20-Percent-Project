@@ -17,10 +17,10 @@ Most of the timeline is me trying to learn and understand the mechanics of how T
 
 | Date          | Deliverable   |
 | ------------- | ------------- |
-| February 19   | Working Bot   |
-| March 11      | Commands Work |
+| February 26   | Working Bot   |
+| March 18      | Commands Work |
 | April 1       | Moderates Chat|
-| April 22      | Interactive   |
+| April 29      | Interactive   |
 | May 13        | Finished Bot  |
 
 ## Reality Check
