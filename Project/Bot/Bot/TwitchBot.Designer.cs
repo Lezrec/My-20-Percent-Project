@@ -1,6 +1,6 @@
 ﻿namespace Bot
 {
-    partial class Form1
+    partial class TwitchBot
     {
         /// <summary>
         /// Required designer variable.
@@ -44,6 +44,7 @@
             this.aLabel.Size = new System.Drawing.Size(39, 13);
             this.aLabel.TabIndex = 0;
             this.aLabel.Text = "aLabel";
+            this.aLabel.Click += new System.EventHandler(this.aLabel_Click);
             // 
             // timer1
             // 

@@ -1,0 +1,16 @@
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe.config
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csprojResolveAssemblyReference.cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.Properties.Resources.resources
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.GenerateResource.Cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe.config
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\bin\Debug\TwitchBot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csprojResolveAssemblyReference.cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.Properties.Resources.resources
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.GenerateResource.Cache

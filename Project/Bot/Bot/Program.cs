@@ -6,17 +6,22 @@ using System.Windows.Forms;
 
 namespace Bot
 {
+    
     static class Program
     {
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            TwitchBot bot = new TwitchBot("irc.twitch.tv", 6667);
+            Application.Run(bot);
+            
         }
     }
 }

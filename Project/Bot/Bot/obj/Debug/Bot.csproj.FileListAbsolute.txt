@@ -7,3 +7,12 @@ C:\Users\user\Documents\GitHub\My-20-Percent-Project\Bot\Bot\obj\Debug\Bot.cspro
 C:\Users\user\Documents\GitHub\My-20-Percent-Project\Bot\Bot\obj\Debug\Bot.exe
 C:\Users\user\Documents\GitHub\My-20-Percent-Project\Bot\Bot\obj\Debug\Bot.pdb
 C:\Users\user\Documents\GitHub\My-20-Percent-Project\Bot\Bot\obj\Debug\Bot.csprojResolveAssemblyReference.cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\bin\Debug\Bot.exe.config
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\bin\Debug\Bot.exe
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\bin\Debug\Bot.pdb
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.csprojResolveAssemblyReference.cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.Properties.Resources.resources
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.csproj.GenerateResource.Cache
+C:\Users\user\Documents\GitHub\My-20-Percent-Project\Project\Bot\Bot\obj\Debug\Bot.TwitchBot.resources
