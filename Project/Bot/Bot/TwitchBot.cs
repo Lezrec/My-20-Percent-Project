@@ -44,7 +44,7 @@ namespace Bot
         
         
 
-        public TwitchBot(string ip, int port, string[] cmds)
+        public TwitchBot(string ip, int port, string[] cmds, string owner)
         {
             ownerCmds = new string[] {"!dismiss", "!addmods + user + ;", "!swearson (if bot is modded)", "!swearsoff", "!modcommands", "!ownercommands"};
             modCmds = new string[] { "!swearson (if bot is modded" , "!swearsoff", "!modcommands"};
@@ -57,7 +57,7 @@ namespace Bot
             reconnectAmount = 0;
             errorShown = false;
             userName = "lezrecbot";
-            channel = "lezrecop";
+            channel = owner;
             ticks = 0;
             getTick = 0;
             minutes = 0;
