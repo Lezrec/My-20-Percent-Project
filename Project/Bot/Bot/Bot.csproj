@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WhisperBot.cs" />
     <EmbeddedResource Include="TwitchBot.resx">
       <DependentUpon>TwitchBot.cs</DependentUpon>
     </EmbeddedResource>
