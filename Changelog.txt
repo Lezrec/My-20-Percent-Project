@@ -1,0 +1,13 @@
+2/20/2016:
+
+A BOT THAT ACTUALLY DOES STUFF!
+Features Include:
+
+Things that are contained inside moderation powers:
+	Language moderation (no swear words)
+
+Connects to a channel
+Can read certain commands (and can have owner / mod priority)
+Adding mods specific to the bot (owner only command, if you only trust some mods with this)
+
+So far thats about it, but the code overheap was huge.
