@@ -11,7 +11,7 @@ namespace Bot
         TwitchBot bot;
         public WhisperBot(string i)
         {
-            bot = new TwitchBot("199.9.253.59:80", 80 , null);
+            bot = new TwitchBot("199.9.253.59:80", 80 , null, "");
             Application.Run(bot);
         }
 

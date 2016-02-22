@@ -41,13 +41,17 @@ namespace Bot
         bool swearPermit;
         string[] modCmds;
         string[] ownerCmds;
-        
-        
+        string[] totalMods;
+        bool reminder = false;
+        bool haveModPowers = false;
+
+
 
         public TwitchBot(string ip, int port, string[] cmds, string owner)
         {
-            ownerCmds = new string[] {"!dismiss", "!addmods + user + ;", "!swearson (if bot is modded)", "!swearsoff", "!modcommands", "!ownercommands"};
-            modCmds = new string[] { "!swearson (if bot is modded" , "!swearsoff", "!modcommands"};
+            totalMods = new string[100];
+            ownerCmds = new string[] { "!dismiss", "!addmods + user + ;", "!removemods + user + ;" , "!swearson (if bot is modded)", "!swearsoff", "!modcommands", "!ownercommands", "!modbot", "!unmodbot" };
+            modCmds = new string[] { "!swearson (if bot is modded", "!swearsoff", "!modcommands" };
             swearPermit = true;
             cmdsOn = false;
             cmdsDisp = false;
@@ -57,7 +61,10 @@ namespace Bot
             reconnectAmount = 0;
             errorShown = false;
             userName = "lezrecbot";
-            channel = owner;
+
+            this.owner = owner;
+            this.channel = this.owner;
+            aLabel.Text += $"\r\nOwner = " + channel;
             ticks = 0;
             getTick = 0;
             minutes = 0;
@@ -65,12 +72,21 @@ namespace Bot
             msgCt = 0;
             try {
                 mods = File.ReadAllText("mods_" + channel + ".txt").ToLower().Split(' ');
+
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 File.Create("mods_" + channel + ".txt");
-                
+                mods = new string[100];
+                mods[0] = "";
+
             }
+            for (int i = 0; i < mods.Length; i++)
+            {
+                totalMods[i] = mods[i];
+            }
+            mods = new string[100];
+            mods = totalMods;
 
         }
 
@@ -94,28 +110,35 @@ namespace Bot
         private void Form1_Load(object sender, EventArgs e)
         {
             aLabel.Text += $"\r\nLets load it up";
-            getMultiplier =  ((float)1 / ((float)timer1.Interval / (float)1000));
-            
+            getMultiplier = ((float)1 / ((float)timer1.Interval / (float)1000));
+
 
         }
 
         void aLabel_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (totalSec % 120 == 0 && totalSec > 0)
+            if (totalSec % 119 == 0 && totalSec > 0 && reminder)
+            {
+
+                reminder = false;
+            }
+
+            if (totalSec % 120 == 0 && totalSec > 0 && !reminder)
             {
                 SendChatMessage("I am an experimental bot! If you wish to kick me out of this chat, say \"!dismiss\"");
+                reminder = true;
             }
 
             if (totalSec == 30 && !cmdsOn)
             {
                 SendChatMessage("Commands are now enabled!");
                 cmdsOn = true;
-                
+
             }
 
             if (totalSec == 35 && !cmdsDisp)
@@ -150,17 +173,22 @@ namespace Bot
             {
                 if (tcpClient.Available > 0 || reader.Peek() >= 0)
                 {
-                    
+
                     string message = reader.ReadLine();
                     aLabel.Text += $"\r\n{message}";
                     string user = message.Substring(message.IndexOf("@") + 1, message.IndexOf("!") - 1).Trim();
-                    
+                    if (message.Length > 250 && haveModPowers)
+                    {
+                        ModTimeout(user, 30);
+                        SendChatMessage("No spammerino please!");
+                    }
 
-                    
-                        
-                        CheckCMD(message, user);
-                    
-                    
+
+
+
+                    CheckCMD(message, user);
+
+
 
                 }
 
@@ -170,8 +198,10 @@ namespace Bot
                 {
                     owner = channel;
                     aLabel.Text += $"\r\nConnecting";
+
                     writer.WriteLine("JOIN #" + channel);
                     writer.Flush();
+
                     joined = true;
                     SendChatMessage("Hello! I am LezrecBot! If I have been summoned and you wish to dismiss me (channel owner), say !dismiss and I will dissapear!");
                 }
@@ -182,6 +212,7 @@ namespace Bot
                 Console.WriteLine("Something happened.");
                 Console.WriteLine(exc.GetType().ToString());
                 Console.WriteLine("Likely causes: Blocked connection to Twitch IRC, no internet, or black magics.");
+                Console.WriteLine(exc.ToString());
             }
 
 
@@ -288,24 +319,30 @@ namespace Bot
 
         private void CheckCMD(string cmd, string user)
         {
-            
-            if ((totalSec - getSec >= 30 || IsMod(user) || user.Equals(owner)))
+
+            if ((totalSec - getSec >= 10 || IsMod(user) || user.Equals(owner)))
             {
                 if (cmd.Contains("!addmods") && user.Equals(owner) && cmd.Contains(";") && cmd.IndexOf("!addmods") < cmd.IndexOf(";"))
                 {
                     SendChatMessage("in addmods");
-                    
+
                     int index = cmd.IndexOf("!addmods") + 9;
                     int endCMD = cmd.IndexOf(";");
                     string allMods = "";
                     string newMod = cmd.ToLower().Substring(index, endCMD - index) + " ";
                     bool alreadyAdded = false;
+                    int modCt = 0;
                     for (int i = 0; i < mods.Length; i++)
                     {
                         if (mods[i].Trim().ToLower().Equals(newMod.Trim()))
                         {
                             SendChatMessage("Already added this mod.");
                             alreadyAdded = true;
+                        }
+                        if (mods[i] == null)
+                        {
+                            modCt = i;
+                            break;
                         }
                         allMods += mods[i] + " ";
                     }
@@ -314,13 +351,13 @@ namespace Bot
                     {
                         allMods += newMod;
                         File.WriteAllText("mods_" + channel + ".txt", allMods);
-                        mods[mods.Length] = newMod;
-                    }
-                    
-                    if (!alreadyAdded)
-                    {
+                        mods[modCt] = newMod;
                         SendChatMessage("Added " + cmd.Substring(index, endCMD - index));
                     }
+
+
+
+
                 }
 
                 if (cmd.Contains("!dismiss") && user.Equals(owner))
@@ -331,19 +368,19 @@ namespace Bot
                 if (cmd.Contains("!modcommands") && (IsMod(user) || user.Equals(owner)))
                 {
                     SendChatMessage(ListModCommands());
-                    
+
                 }
 
                 if (cmd.Contains("!ownercommands") && (user.Equals(owner)))
                 {
                     SendChatMessage(ListOwnerCommands());
-                    
+
                 }
 
                 if (cmd.Contains("!swearson") && (IsMod(user) || user.Equals(owner)))
                 {
                     swearPermit = true;
-                    
+
                     SendChatMessage("Sailor mode enabled!");
                 }
 
@@ -431,11 +468,52 @@ namespace Bot
                     getSec = totalSec;
                 }
 
+                if (cmd.Contains("!commands") && msgCt < 5)
+                {
+                    ListCommands();
+                }
+
                 if (cmd.Contains("!EU") && msgCt < 5)
                 {
                     SendChatMessage("4Head MY TEETH ARE BROWN 4Head I SMELL LIKE POO 4Head YOU GUESSED RIGHT 4Head IM FROM EU 4Head");
                     msgCt++;
                     getSec = totalSec;
+                }
+
+                if (cmd.Contains("!modbot") && user.Equals(owner))
+                {
+                    haveModPowers = true;
+                    SendChatMessage("I now think I can moderate! Please make sure to mod me if this is the case.");
+                }
+
+                if (cmd.Contains("!unmodbot") && user.Equals(owner))
+                {
+                    haveModPowers = false;
+                    SendChatMessage("I now think I cannot moderate! Please make sure to unmod me if this is the case.");
+                }
+
+                if (cmd.Contains("!removemods") && user.Equals(owner) && cmd.Contains(";") && cmd.IndexOf("!removemods") < cmd.IndexOf(";"))
+                {
+                    SendChatMessage("in removemods");
+
+                    int index = cmd.IndexOf("!removemods") + 11;
+                    int endCMD = cmd.IndexOf(";");
+
+                    string newMod = cmd.ToLower().Substring(index, endCMD - index);
+                    
+
+                    RemoveMod(newMod);
+                    
+
+
+
+
+                }
+
+                if (cmd.Contains("!mods") && user.Equals(owner))
+                {
+                    ListMods();
+
                 }
 
                 if (cmd.ToLower().Contains("is " + owner) && msgCt < 5)
@@ -446,13 +524,14 @@ namespace Bot
                 }
             }
             msgCt = 0;
-            
+
         }
 
         private bool IsMod(string user)
         {
             bool isMod = false;
-            foreach(string moderator in mods)
+            mods = File.ReadAllText("mods_" + owner + ".txt").ToLower().Split(' ');
+            foreach (string moderator in mods)
             {
                 if (user.Trim().ToLower().Equals(moderator.ToLower().Trim()))
                 {
@@ -464,32 +543,35 @@ namespace Bot
 
         private void ModTimeout(string user, int time)
         {
-            if (getTick != ticks && time <= 300)
+            if (haveModPowers)
             {
-                SendChatMessage("/timeout " + user + time);
-                try
+                if (getTick != ticks && time <= 300)
                 {
-
-
-                    if (tcpClient.Available > 0 || reader.Peek() >= 0)
+                    SendChatMessage("/timeout " + user + " " + time);
+                    try
                     {
-                        var message = reader.ReadLine();
-                        if (message.Contains("421"))
-                        {
-                            aLabel.Text += $"\r\nUsername doesn't exist";
-                        }
-                        else
-                        {
-                            SendChatMessage(user + " has been timed out. Don't be bad! :/");
-                        }
-                        aLabel.Text += $"\r\n{message}";
-                    }
-                }
-                catch (Exception exc)
-                {
-                    Console.WriteLine(exc.GetType().ToString());
-                    Console.WriteLine("Something happened during the ban command");
 
+
+                        if (tcpClient.Available > 0 || reader.Peek() >= 0)
+                        {
+                            var message = reader.ReadLine();
+                            if (message.Contains("421"))
+                            {
+                                aLabel.Text += $"\r\nUsername doesn't exist";
+                            }
+                            else
+                            {
+                                SendChatMessage(user + " has been timed out. Don't be bad! :/");
+                            }
+                            aLabel.Text += $"\r\n{message}";
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        Console.WriteLine(exc.GetType().ToString());
+                        Console.WriteLine("Something happened during the ban command");
+
+                    }
                 }
             }
             getTick = ticks;
@@ -508,7 +590,7 @@ namespace Bot
         public string ListOwnerCommands()
         {
             string cmds = "Owner Commands: ";
-            foreach(string cmd in ownerCmds)
+            foreach (string cmd in ownerCmds)
             {
                 cmds += cmd + " ";
             }
@@ -523,6 +605,64 @@ namespace Bot
                 cmds += cmd + " ";
             }
             return cmds;
+        }
+
+        public void ListMods()
+        {
+            string retMods = "Mods: ";
+            foreach (string mod in mods)
+            {
+                retMods += mod + " ";
+            }
+            SendChatMessage(retMods);
+        }
+
+
+        public void UpdateMods()
+        {
+            string allMods = "";
+            foreach(string mod in mods)
+            {
+                allMods += mod + " ";
+            }
+            File.WriteAllText("mods_" + owner + ".txt", allMods);
+        }
+
+        public void RemoveMod(string user)
+        {
+            bool removed = false;
+            for (int i = 0; i < mods.Length; i++)
+            {
+                string mod = mods[i];
+                if (mods == null)
+                {
+                    break;
+                }
+                if (user.Trim().ToLower().Equals(mod.Trim().ToLower()))
+                {
+                    mods[i] = null;
+                    removed = true;
+
+                    for(int j = i + 1; j < mods.Length; j++)
+                    {
+                        if (mods[j] == null)
+                        {
+                            break;
+                        }
+                        mods[j - 1] = mods[j];
+                        
+                    }
+                }
+            }
+            if (removed)
+            {
+                SendChatMessage("Removed " + user);
+            }
+            else
+            {
+                SendChatMessage("Invalid user: " + user);
+            }
+            UpdateMods();
         }
 
         
