@@ -10,4 +10,9 @@ Week 2 (Sunday, February 14, 2016):
 	My end goal is to understand the code, since understanding what you make is a good way to improve on what you make. Getting the functionality I want in this bot will take time and effort, which whether I want to or not, is essential to getting an awesome bot (and a good grade).
 	I will continue to cross-reference tutorials and other bots to see what functions they serve. A notable one, NightBot, can do many things. It can act like an automatic moderator, it can have keywords or commands and act accordingly, and it can run with other plugins to help the streamer.
 Total Word Count: 181
+Week 3 (Sunday February 21, 2016):
+I have made a lot of progress. The bot actually does stuff, and it does it very well! It can respond to input, can read the user that said it, and can even do mod actions if the channel owner so pleases. This is a major update and I will continue to make it better to actually transform it into a bot that could be used by other channels.
+	That being said, I fear for my deliverable schedule. I think I have made so much progress, or I massively underestimated the ability to create the functions, that I have basically met all deliverables by the third week. Such being said, I will always strive to improve upon it, and also make it much more user friendly. At the moment, it’s a bot only a developer could love.
+	My current goal for the next week is to reformat everything. The source code as I’m writing this is horrible, redundant and a pain to read. Since this is an open source project, the methods will have to be public, and I will have to create an API sheet and document all methods and features. I am very glad I took this project; it has taught me a lot. Hopefully, by the end of the development time, I will have a bot to be proud of.
+Total Word Count: 223
 
