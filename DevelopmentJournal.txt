@@ -15,4 +15,9 @@ I have made a lot of progress. The bot actually does stuff, and it does it very 
 	That being said, I fear for my deliverable schedule. I think I have made so much progress, or I massively underestimated the ability to create the functions, that I have basically met all deliverables by the third week. Such being said, I will always strive to improve upon it, and also make it much more user friendly. At the moment, it’s a bot only a developer could love.
 	My current goal for the next week is to reformat everything. The source code as I’m writing this is horrible, redundant and a pain to read. Since this is an open source project, the methods will have to be public, and I will have to create an API sheet and document all methods and features. I am very glad I took this project; it has taught me a lot. Hopefully, by the end of the development time, I will have a bot to be proud of.
 Total Word Count: 223
+Week 4 (Sunday February 29, 2016): 	
+It was only a minor update, but I added a log feature. The log feature creates a .txt file that each channel gets and every time a user speaks inside the channel it logs the time, the message, and the user. It also automatically generates dates and everything is managed via the C# code. 
+Since most of my deliverables are already met, I’m adding a stretch goal. By the end of the weeks in May, I will try to set up a server and a GUI to manage everything. My plan is to actually have a legitimate contender for good twitch bots that large channels will use. The server will host any assets such as condition files, log files, and other information files that I might add on later.
+	It’s been quite an experience working on this project, but I hope by the end of it I come out with much knowledge to help me in the realm of computer application design.
+Total Word Count: 162
 
