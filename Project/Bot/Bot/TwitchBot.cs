@@ -55,7 +55,15 @@ namespace Bot
             swearPermit = true;
             cmdsOn = false;
             cmdsDisp = false;
-            tcpClient = new TcpClient(ip, port);
+            try
+            {
+                tcpClient = new TcpClient(ip, port);
+            }
+            catch(Exception exc)
+            {
+
+            }
+            
             InitializeComponent();
 
             reconnectAmount = 0;
@@ -70,6 +78,17 @@ namespace Bot
             minutes = 0;
             commands = cmds;
             msgCt = 0;
+            try
+            {
+                string str = File.ReadAllText("logs_" + channel + ".txt");
+            }
+            catch(Exception exc)
+            {
+                
+                File.Create("logs_" + channel + ".txt");
+            }
+
+
             try {
                 mods = File.ReadAllText("mods_" + channel + ".txt").ToLower().Split(' ');
 
@@ -93,9 +112,16 @@ namespace Bot
         private void Reconnect()
         {
 
+            try
+            {
+                reader = new StreamReader(tcpClient.GetStream());
+                writer = new StreamWriter(tcpClient.GetStream());
+            }
+            catch(Exception e)
+            {
 
-            reader = new StreamReader(tcpClient.GetStream());
-            writer = new StreamWriter(tcpClient.GetStream());
+            }
+            
 
             var password = File.ReadAllText("password.txt");
 
@@ -176,17 +202,37 @@ namespace Bot
 
                     string message = reader.ReadLine();
                     aLabel.Text += $"\r\n{message}";
-                    string user = message.Substring(message.IndexOf("@") + 1, message.IndexOf("!") - 1).Trim();
-                    if (message.Length > 250 && haveModPowers)
+                    
+                    if (joined)
                     {
-                        ModTimeout(user, 30);
-                        SendChatMessage("No spammerino please!");
+                        
+                        string user = message.Substring(1, message.IndexOf("!") - 1);
+                        
+                        
+                        message = message.Substring(message.IndexOf("#" + owner));
+                        message = message.Substring(message.IndexOf(":") + 1).Trim();
+                        Log(user, message);
+                        CheckCMD(message, user);
+                        
+                        aLabel.Text += $"\r\n{message}";
+                            
+                            
+                        
+                        
+                        
+
+
+
+
+                        
+
+                        if (message.Length > 250 && haveModPowers)
+                        {
+                            ModTimeout(user, 30);
+                            SendChatMessage("No spammerino please!");
+                        }
                     }
-
-
-
-
-                    CheckCMD(message, user);
+                    
 
 
 
@@ -212,7 +258,12 @@ namespace Bot
                 Console.WriteLine("Something happened.");
                 Console.WriteLine(exc.GetType().ToString());
                 Console.WriteLine("Likely causes: Blocked connection to Twitch IRC, no internet, or black magics.");
-                Console.WriteLine(exc.ToString());
+                if (exc.GetType() != new ArgumentOutOfRangeException().GetType())
+                {
+                    SendChatMessage(exc.ToString());
+                    SendChatMessage("at line 264");
+                }
+                
             }
 
 
@@ -266,8 +317,16 @@ namespace Bot
 
         public void SendIRCMessage(string message)
         {
-            writer.WriteLine(message);
-            writer.Flush();
+            try
+            {
+                writer.WriteLine(message);
+                writer.Flush();
+            }
+            catch(Exception e)
+            {
+
+            }
+            
         }
 
         public void SendChatMessage(string message)
@@ -319,12 +378,15 @@ namespace Bot
 
         private void CheckCMD(string cmd, string user)
         {
+            
+            
+            
 
             if ((totalSec - getSec >= 10 || IsMod(user) || user.Equals(owner)))
             {
                 if (cmd.Contains("!addmods") && user.Equals(owner) && cmd.Contains(";") && cmd.IndexOf("!addmods") < cmd.IndexOf(";"))
                 {
-                    SendChatMessage("in addmods");
+                    
 
                     int index = cmd.IndexOf("!addmods") + 9;
                     int endCMD = cmd.IndexOf(";");
@@ -470,6 +532,7 @@ namespace Bot
 
                 if (cmd.Contains("!commands") && msgCt < 5)
                 {
+                    
                     ListCommands();
                 }
 
@@ -522,6 +585,13 @@ namespace Bot
                     msgCt++;
                     getSec = totalSec;
                 }
+
+                if (cmd.Contains("!clearlogs") && user.Equals(owner))
+                {
+                    ClearLogs();
+                }
+                
+                
             }
             msgCt = 0;
 
@@ -665,6 +735,73 @@ namespace Bot
             UpdateMods();
         }
 
+        public void Log(string user, string words)
+        {
+            if (!user.Equals("lezrecbot") && !(user.Equals(owner) && words.Contains("!dismiss")))
+            {
+                try
+                {
+                    string fileName = "logs_" + owner + ".txt";
+
+
+                    string oldData = File.ReadAllText(fileName);
+                    string today = DateTime.Today.ToString().Substring(0, 9);
+
+                    if (!oldData.Contains(today))
+                    {
+                        
+                        File.WriteAllText("logs_" + channel + ".txt", today + Environment.NewLine);
+                        oldData = File.ReadAllText(fileName);
+                    }
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    string newLine = "";
+                    if (oldData.Trim() != "")
+                    {
+                        newLine = Environment.NewLine;
+                    }
+                    string time = DateTime.Now.ToString().Substring(10);
+                    File.WriteAllText(fileName, oldData + newLine + time + ": " + user + ": " + words);
+
+
+
+
+
+                }
+
+                catch (Exception e)
+                {
+                    SendChatMessage("uh oh!");
+                    SendChatMessage(e.GetType().ToString());
+                    SendChatMessage(e.ToString());
+                }
+            }
+            
+        }
+
+        public void ClearLogs()
+        {
+            try
+            {
+                File.WriteAllText("logs_" + channel + ".txt", "");
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
         
     }
 }
