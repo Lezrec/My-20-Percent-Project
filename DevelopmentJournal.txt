@@ -20,4 +20,9 @@ It was only a minor update, but I added a log feature. The log feature creates a
 Since most of my deliverables are already met, I’m adding a stretch goal. By the end of the weeks in May, I will try to set up a server and a GUI to manage everything. My plan is to actually have a legitimate contender for good twitch bots that large channels will use. The server will host any assets such as condition files, log files, and other information files that I might add on later.
 	It’s been quite an experience working on this project, but I hope by the end of it I come out with much knowledge to help me in the realm of computer application design.
 Total Word Count: 162
+Week 5 (Sunday March 6, 2016):
+	I didn’t really do anything this week. With a TSA (Technology Student Association) competition coming up and a game to complete, full focus has been put into that. Besides looking into a server to store information and creating a user interface, my bot is looking presentable (although the code could use some shaping up).
+	Working on this bot and other projects relating to computer science have shown me that hard work and progress take time, and that everything is hard until you start getting into it. The game I’m developing and this Twitch bot have also been applicable, so I feel better about working on them. It’s been a wonderful experience and I will continue working on stuff in the future like the sort. As for now, I’m tired and stressed, and I don’t want to destroy my physical and mental health.
+	The bot can wait, this project cannot. I’m leaving March 10th for Twin Falls, and there I will learn much about engineering and what it can do for me. I’m hoping that all this hard work was worth it, that I’ll get an end result from all the madness. Applying computer science concepts has been great, and I will seek to continue it in the future.
+Total Word Count: 154
 
