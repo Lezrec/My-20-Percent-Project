@@ -19,7 +19,7 @@ namespace Bot
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TwitchBot bot = new TwitchBot("irc.twitch.tv", 6667, new string[] { "!NA", "!EU", "!cantbanthesemoves", "!time", }, "hardlydifficult");
+            TwitchBot bot = new TwitchBot("irc.twitch.tv", 6667, new string[] { "!NA", "!EU", "!cantbanthesemoves", "!time", }, "junodavidw");
             
             Application.Run(bot);
             
