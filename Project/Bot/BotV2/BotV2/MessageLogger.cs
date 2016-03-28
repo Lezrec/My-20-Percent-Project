@@ -17,7 +17,7 @@ namespace BotV2
         {
             enabled = true;
             
-            msgList.RipToTxt();
+            //msgList.RipToTxt();
             msgUserList.RipToTxt();
         }
 

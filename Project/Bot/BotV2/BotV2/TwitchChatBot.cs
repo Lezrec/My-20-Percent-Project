@@ -16,8 +16,8 @@ using System.Diagnostics;
 namespace BotV2
 {
     /// <summary>
-    ///  FIX DEFAULT COMMANDSSSSSS
-    /// LOGS ARE OFF BECAUSE ERRORS FOR NOW FIX LATER
+    ///  A simple Twitch chat bot. Able to switch channels and stuff.
+    /// 
     /// </summary>
     public partial class TwitchChatBot : Form
     {
@@ -94,9 +94,9 @@ namespace BotV2
             InitializeComponent();
             try
             {
-                Channel channelBase = new Channel("lezrecop");
+                Channel channelBase = new Channel("lezrecbot");
                 TwitchChatBot.ChannelIn = channelBase;
-                TwitchChatBot.ChannelIn.Switch(new Channel("lezrecop"));
+                TwitchChatBot.ChannelIn.Switch(new Channel("lezrecbot"));
                 client = new TcpClient(ip, port);
                 writer = new StreamWriter(client.GetStream());
                 reader = new StreamReader(client.GetStream());
@@ -174,7 +174,7 @@ namespace BotV2
                 {
                     
                 }
-                else if (InputCount < 15)
+                else //if (InputCount < 15)
                 {
                     lastTimeTicked = currentTicks;
 
@@ -205,8 +205,13 @@ namespace BotV2
                                     Log(msg);
                                     MessageReader.Read(msg);
                                     logger.Log(msg);
-                                    logger.Log(saidMessage);
+                                    //logger.Log(saidMessage);
                                     lastSinceRippedToTxt++;
+
+                                    if (message.ToLower().Contains("lezrecbot i think you're stupid"))
+                                    {
+                                        LezrecBotSendChatMessage(user + ". I think the same about you!");
+                                    }
                                     
                                 }
 
@@ -240,7 +245,7 @@ namespace BotV2
 
                 if (currentTicks == 20)
                 {
-                    LezrecBotSendChatMessage("/w lezrecop TEST");
+                    Whisper("lezrecop", "test");
                 }
 
             }
@@ -309,8 +314,11 @@ namespace BotV2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ChannelIn .Switch(new Channel(textBox1.Text));
+            ChannelIn = new Channel(textBox1.Text);
+            MessageWithUserList.desigName = ChannelIn.Name;
             Reconnect(ChannelIn);
+            LezrecBotSendChatMessage("Hello! HeyGuys");
+            
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -364,9 +372,23 @@ namespace BotV2
             TwitchChatBot.ActiveForm.AutoScroll = true;
         }
 
+        private void OnApplicationExit(object sender, EventArgs e)
+        {
+            button3_Click(sender, e);
+        }
+
         public static void LogError(string error)
         {
             UseBot.label1.Text += $"\r\n{error}";
+        }
+
+        public void Whisper(string user, string mesage)
+        {
+            
+            //TODO THIS
+            SendIRCMessage("CAP REQ :twitch.tv/commands");
+            SendIRCMessage("PRIVMSG #jtv :.w " + user + " " + mesage);
+            
         }
 
     }

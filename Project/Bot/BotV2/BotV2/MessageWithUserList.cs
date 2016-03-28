@@ -7,9 +7,9 @@ using System.IO;
 
 namespace BotV2
 {
-    class MessageWithUserList
+    public class MessageWithUserList
     {
-        private string desigName = TwitchChatBot.ChannelIn.Name.ToLower();
+        public static string desigName = TwitchChatBot.ChannelIn.Name.ToLower();
         private List<Message> messages = new List<Message>();
 
         public MessageWithUserList()
@@ -24,10 +24,11 @@ namespace BotV2
                 int j = 0;
                 File.Create(desigName + "_Ulogs");
                 int i = 0;
-                File.WriteAllText(desigName + "_Ulogs", Environment.NewLine);
+                
             }
             catch(IOException exc)
             {
+                File.WriteAllText(desigName + "_Ulogs", Environment.NewLine);
                 desigName = TwitchChatBot.ChannelIn.Name.ToLower();
                 int j = 0;
                 File.Create(desigName + "_Ulogs");
@@ -119,13 +120,22 @@ namespace BotV2
             
             try
             {
-                
                 File.ReadAllText(desigName + "_Ulogs");
             }
             catch(FileNotFoundException exc)
             {
                 File.Create(desigName + "_Ulogs");
-                File.WriteAllText(desigName + "_Ulogs", Environment.NewLine);
+                try
+                {
+                    File.ReadAllText(desigName + "_Ulogs");
+                    File.WriteAllText(desigName + "_Ulogs", Environment.NewLine);
+                }
+                catch(IOException ex)
+                {
+                    File.ReadAllText(desigName + "_Ulogs");
+                    File.WriteAllText(desigName + "_Ulogs", Environment.NewLine);
+                }
+                
             }
             finally
             {
