@@ -52,12 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseCommands.cs" />
+    <Compile Include="BotFile.cs" />
     <Compile Include="Channel.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandList.cs" />
+    <Compile Include="CommandsFile.cs" />
     <Compile Include="DataPacket.cs" />
     <Compile Include="Date.cs" />
+    <Compile Include="MemoryController.cs" />
     <Compile Include="MessageReader.cs" />
+    <Compile Include="ModsFile.cs" />
     <Compile Include="TwitchChatBot.cs">
       <SubType>Form</SubType>
     </Compile>

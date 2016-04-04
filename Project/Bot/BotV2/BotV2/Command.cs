@@ -135,7 +135,7 @@ namespace BotV2
 
         public static Command Timeout(User user)
         {
-            return new Command("!timeout", "/timeout 120 " + user.Name); 
+            return new Command("!timeout", "/timeout " + user.Name + " 120"); 
         }
 
         public static Command Credits

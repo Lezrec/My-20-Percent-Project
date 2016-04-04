@@ -49,6 +49,7 @@ namespace BotV2
         public static int minutes;
         public static int hours;
         public static double ticksTilSecond;
+        public static int errorTicks;
 
         public Owner ChannelOwner
         {
@@ -212,6 +213,12 @@ namespace BotV2
                                     {
                                         LezrecBotSendChatMessage(user + ". I think the same about you!");
                                     }
+
+                                    if (message.Contains("***"))
+                                        {
+                                            Timeout(messageUser);
+                                            LezrecBotSendChatMessage("I suggest you do not swear!");
+                                        }
                                     
                                 }
 
@@ -257,9 +264,17 @@ namespace BotV2
 
             catch(Exception exc)
             {
-                label1.Text += $"\r\n{exc.ToString()}";
+                if (errorTicks > 10)
+                {
+                    Application.Exit();
+                }
+                label1.Text += $"\r\nERROR ERROR BEEP BOOP";
+                label1.Text += $"\r\n{exc.StackTrace}";
+                textBox1.Text = $"!!!!!!!!!!!!!!!!!!!!!!";
+                errorTicks++;
+
             }
-            //justSentMessage = false;
+            
             currentTicks++;
 
         }
@@ -284,6 +299,16 @@ namespace BotV2
             InputCount++;
             writer.WriteLine(message);
             writer.Flush();
+        }
+
+        public void AddToLabel(string message)
+        {
+            label1.Text += $"\r\n{message}";
+        }
+
+        public void Timeout(User user)
+        {
+            Command.Timeout(user).Execute();
         }
 
         public void LezrecBotSendChatMessage(string message)
@@ -317,7 +342,7 @@ namespace BotV2
             ChannelIn = new Channel(textBox1.Text);
             MessageWithUserList.desigName = ChannelIn.Name;
             Reconnect(ChannelIn);
-            LezrecBotSendChatMessage("Hello! HeyGuys");
+            LezrecBotSendChatMessage("Kappa This is a LezrecBoi attack you are now going to lose followers! Kappa");
             
         }
 
