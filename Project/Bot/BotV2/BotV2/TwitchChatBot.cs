@@ -41,6 +41,9 @@ namespace BotV2
         public static TwitchChatBot UseBot;
         public static CommandList list;
 
+        public static CommandsFile cmdFile;
+        public static ModsFile modFile;
+
         public static Channel ChannelIn;
         public static string ViewerList;
         public static int InputCount;
@@ -134,6 +137,8 @@ namespace BotV2
             {
                 
                 initialized = true;
+                cmdFile = new CommandsFile(ChannelIn.Name.ToLower() + "_commands");
+                modFile = new ModsFile(ChannelIn.Name.ToLower() + "_mods");
 
 
             }
@@ -209,16 +214,11 @@ namespace BotV2
                                     //logger.Log(saidMessage);
                                     lastSinceRippedToTxt++;
 
-                                    if (message.ToLower().Contains("lezrecbot i think you're stupid"))
-                                    {
-                                        LezrecBotSendChatMessage(user + ". I think the same about you!");
-                                    }
+                                    //if (message.ToLower().Contains("lezrecbot i think you're stupid"))
+                                    //{
+                                     //   LezrecBotSendChatMessage(user + ". I think the same about you!");
+                                   // }
 
-                                    if (message.Contains("***"))
-                                        {
-                                            Timeout(messageUser);
-                                            LezrecBotSendChatMessage("I suggest you do not swear!");
-                                        }
                                     
                                 }
 
@@ -252,7 +252,7 @@ namespace BotV2
 
                 if (currentTicks == 20)
                 {
-                    Whisper("lezrecop", "test");
+                    Whisper("lezrecop", "ok so dis work");
                 }
 
             }
@@ -264,7 +264,7 @@ namespace BotV2
 
             catch(Exception exc)
             {
-                if (errorTicks > 10)
+                if (errorTicks > 200)
                 {
                     Application.Exit();
                 }

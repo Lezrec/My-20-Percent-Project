@@ -194,12 +194,15 @@ namespace BotV2
         
         public void AddCommand(Command cmd, User user)
         {
-            if (user.Permission >= 1)
+            if (user.Permission >= 1 && !AddCommandAlreadyMatches(cmd.Trigger))
             {
                 commands.Add(cmd);
+                CommandsFile file = new CommandsFile(TwitchChatBot.ChannelIn.Name.ToLower() + "_commands");
+                file.Add(cmd);
+                
                 RemoveCommand("!list");
                 _toString = ToString();
-                commands.Add(new Command("!list", _toString + " Also there's !list that has to be formatted differently because of a weird recursion loop!"));
+                commands.Add(new Command("!list", _toString + " and list."));
                 UpdateArray();
             }
             

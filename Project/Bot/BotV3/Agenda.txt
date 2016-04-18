@@ -1,0 +1,4 @@
+Stuff to do: 
+Finish summaries in : TimeFromBot, FileEditor, PacketMaker
+Make : User, UserList, MsgPrepper
+Work on: PacketFeeder feed, GuiManager setup, Drag and drop elements onto the form, make MessageType useful, make CommandManager useful, test CLL, finish FileEditor
