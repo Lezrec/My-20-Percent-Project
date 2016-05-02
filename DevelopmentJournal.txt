@@ -57,6 +57,15 @@ Week 12 (April 24, 2016):
 	Once everything gets rolling and I get the I/O situation figured out, everything else should be a breeze. Once I learn and pick out a language to use for storing my commands (I’m thinking JSON is the preferable choice), storage should be a very straightforward task.
 	Going through the final iteration has made me look back and realize how inexperienced I was back then with C#, even with Java, and that the best way to learn is to practice and struggle on your own. Luckily I have derived methods in which I don’t get errors due to my experience with stressing out (I’m looking at you parameter requiring user getting channel owner) for hours and toiling over a little mistake. Things get done quickly and I feel it’s not just me getting through the mud, but rather building tracks and starting the train. With the deliverable due next week, I will have my interactive bot that everyone so very much expects from me (I’m looking at you Isaac).
 Total Word Count: 319
+Week 13 (May 1, 2016):
+So the bot has about as many features as before, but the command memory for each channel now works and removing commands also works great. Some GUI issues need to be fixed but that will come next week. Now I’m implementing a user list that allows someone to check users and act accordingly. The project is nearing its end and it’s been quite a piece of work. I’m also going to work on creating my presentation and practicing it because I have a lot to talk about. Unfortunately I’m not sure getting a server up and running will happen, but I am going to figure out a way to compactly store all this stuff.
+Here is a complete list of what I’m going to implement before the end of the project (Hopefully!):
+1.	Able to ban or restrict words (as in if it’s said too much ban the user who said it)
+2.	User list and features coming with it.
+3.	Time and uptime of the channel (not sure about the latter)
+4.	Information through commands
+5.	Finishing the GUI
+Total Word Count: 180
 
 
 
