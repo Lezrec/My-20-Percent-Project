@@ -31,16 +31,19 @@
             this.OutputLabel = new System.Windows.Forms.Label();
             this.InputPage = new System.Windows.Forms.TabControl();
             this.OutputPage = new System.Windows.Forms.TabPage();
+            this.OutputText = new System.Windows.Forms.TextBox();
             this.DebugPage = new System.Windows.Forms.TabPage();
+            this.DebugTextBox = new System.Windows.Forms.TextBox();
+            this.DebugLabel = new System.Windows.Forms.Label();
             this.InputPg = new System.Windows.Forms.TabPage();
             this.ModerationPage = new System.Windows.Forms.TabPage();
             this.CommandPage = new System.Windows.Forms.TabPage();
-            this.OutputText = new System.Windows.Forms.TextBox();
-            this.DebugLabel = new System.Windows.Forms.Label();
-            this.DebugTextBox = new System.Windows.Forms.TextBox();
+            this.whatItDoText = new System.Windows.Forms.TextBox();
+            this.cmdText = new System.Windows.Forms.TextBox();
             this.InputPage.SuspendLayout();
             this.OutputPage.SuspendLayout();
             this.DebugPage.SuspendLayout();
+            this.CommandPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OutputLabel
@@ -78,6 +81,16 @@
             this.OutputPage.Text = "Output";
             this.OutputPage.UseVisualStyleBackColor = true;
             // 
+            // OutputText
+            // 
+            this.OutputText.Location = new System.Drawing.Point(9, 20);
+            this.OutputText.Multiline = true;
+            this.OutputText.Name = "OutputText";
+            this.OutputText.ReadOnly = true;
+            this.OutputText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.OutputText.Size = new System.Drawing.Size(561, 246);
+            this.OutputText.TabIndex = 1;
+            // 
             // DebugPage
             // 
             this.DebugPage.Controls.Add(this.DebugTextBox);
@@ -89,6 +102,25 @@
             this.DebugPage.TabIndex = 1;
             this.DebugPage.Text = "Debug";
             this.DebugPage.UseVisualStyleBackColor = true;
+            // 
+            // DebugTextBox
+            // 
+            this.DebugTextBox.Location = new System.Drawing.Point(4, 24);
+            this.DebugTextBox.Multiline = true;
+            this.DebugTextBox.Name = "DebugTextBox";
+            this.DebugTextBox.ReadOnly = true;
+            this.DebugTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.DebugTextBox.Size = new System.Drawing.Size(582, 242);
+            this.DebugTextBox.TabIndex = 1;
+            // 
+            // DebugLabel
+            // 
+            this.DebugLabel.AutoSize = true;
+            this.DebugLabel.Location = new System.Drawing.Point(7, 7);
+            this.DebugLabel.Name = "DebugLabel";
+            this.DebugLabel.Size = new System.Drawing.Size(42, 13);
+            this.DebugLabel.TabIndex = 0;
+            this.DebugLabel.Text = "Debug:";
             // 
             // InputPg
             // 
@@ -112,6 +144,8 @@
             // 
             // CommandPage
             // 
+            this.CommandPage.Controls.Add(this.whatItDoText);
+            this.CommandPage.Controls.Add(this.cmdText);
             this.CommandPage.Location = new System.Drawing.Point(4, 22);
             this.CommandPage.Name = "CommandPage";
             this.CommandPage.Padding = new System.Windows.Forms.Padding(3);
@@ -120,34 +154,25 @@
             this.CommandPage.Text = "Commands";
             this.CommandPage.UseVisualStyleBackColor = true;
             // 
-            // OutputText
+            // whatItDoText
             // 
-            this.OutputText.Location = new System.Drawing.Point(9, 20);
-            this.OutputText.Multiline = true;
-            this.OutputText.Name = "OutputText";
-            this.OutputText.ReadOnly = true;
-            this.OutputText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.OutputText.Size = new System.Drawing.Size(561, 246);
-            this.OutputText.TabIndex = 1;
+            this.whatItDoText.Location = new System.Drawing.Point(282, 0);
+            this.whatItDoText.Multiline = true;
+            this.whatItDoText.Name = "whatItDoText";
+            this.whatItDoText.ReadOnly = true;
+            this.whatItDoText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.whatItDoText.Size = new System.Drawing.Size(309, 272);
+            this.whatItDoText.TabIndex = 1;
             // 
-            // DebugLabel
+            // cmdText
             // 
-            this.DebugLabel.AutoSize = true;
-            this.DebugLabel.Location = new System.Drawing.Point(7, 7);
-            this.DebugLabel.Name = "DebugLabel";
-            this.DebugLabel.Size = new System.Drawing.Size(42, 13);
-            this.DebugLabel.TabIndex = 0;
-            this.DebugLabel.Text = "Debug:";
-            // 
-            // DebugTextBox
-            // 
-            this.DebugTextBox.Location = new System.Drawing.Point(4, 24);
-            this.DebugTextBox.Multiline = true;
-            this.DebugTextBox.Name = "DebugTextBox";
-            this.DebugTextBox.ReadOnly = true;
-            this.DebugTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DebugTextBox.Size = new System.Drawing.Size(582, 242);
-            this.DebugTextBox.TabIndex = 1;
+            this.cmdText.Location = new System.Drawing.Point(-3, 0);
+            this.cmdText.Multiline = true;
+            this.cmdText.Name = "cmdText";
+            this.cmdText.ReadOnly = true;
+            this.cmdText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.cmdText.Size = new System.Drawing.Size(287, 272);
+            this.cmdText.TabIndex = 0;
             // 
             // TwitchChatBot
             // 
@@ -163,6 +188,8 @@
             this.OutputPage.PerformLayout();
             this.DebugPage.ResumeLayout(false);
             this.DebugPage.PerformLayout();
+            this.CommandPage.ResumeLayout(false);
+            this.CommandPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -179,6 +206,8 @@
         private System.Windows.Forms.TextBox OutputText;
         private System.Windows.Forms.TextBox DebugTextBox;
         private System.Windows.Forms.Label DebugLabel;
+        private System.Windows.Forms.TextBox whatItDoText;
+        private System.Windows.Forms.TextBox cmdText;
     }
 }
 

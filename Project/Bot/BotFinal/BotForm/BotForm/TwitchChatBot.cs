@@ -15,9 +15,11 @@ namespace BotForm
 
     public partial class TwitchChatBot : Form //cant extend botrelatedobject but if this is truly good it shouldnt need to have any important methods inside here
     {
+        internal CommandList cmdList;
+        internal FileEditor cmdsFromFile;
         internal PersonalTimer timer;
         internal static bool started = false;
-        private HappeningHandler myHandler;
+        internal HappeningHandler myHandler;
         internal BotClient Client;
         internal MessageScrubber Scrubber;
         internal Channel ChannelIn;
@@ -25,6 +27,7 @@ namespace BotForm
         internal static Developer Twitch_IRC;
         internal static bool connected = false;
         internal FileEditor myEditor;
+        internal static UserList myUsers = new UserList();
 
         private object loadObj;
         private EventArgs loadEventArgs;
@@ -39,7 +42,7 @@ namespace BotForm
             
             me = this;
             
-            ChannelIn = new Channel("lezrecbot"); //start in my channel because why not :)
+            ChannelIn = new Channel("lezrecop"); //start in my channel because why not :)
             Client = new BotClient();
             Scrubber = new MessageScrubber();
         }
@@ -76,13 +79,28 @@ namespace BotForm
                 MinimumSize = Size;
                 MaximumSize = Size;
                 timer = new PersonalTimer();
-                timer.Start();
+                
                 started = true;
                 myHandler = new HappeningHandler();
                 THE_MAN = new Developer("lezrecop", 3);
                 Twitch_IRC = new Developer("Twitch", 3);
                 Client.Load();
-                Client.JoinChannel(ChannelIn);
+                
+                cmdsFromFile = new FileEditor(ChannelIn.Name + "_cmds.txt");
+                if (Client.CanConnect())
+                {
+                    timer.Start();
+                    Client.JoinChannel(ChannelIn);
+                    cmdList = new CommandList();
+                    cmdList.UpdateGUI();
+                }
+                else
+                {
+                    timer.Abort();
+                    
+                }
+
+                
                 
                 
                 
@@ -107,6 +125,31 @@ namespace BotForm
         private void OutputLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        
+
+        public void WriteToCMDTrig(string text)
+        {
+            string prev = cmdText.Text;
+            prev += text + Environment.NewLine ;
+            cmdText.Text = prev;
+            cmdText.Update();
+        }
+
+        public void WriteToCMDWhatItDo(string text)
+        {
+            
+            string prev = whatItDoText.Text;
+            prev += text + Environment.NewLine;
+            whatItDoText.Text = prev;
+            whatItDoText.Update();
+        }
+
+        public void WipeCommands()
+        {
+            whatItDoText.Text = "";
+            cmdText.Text = "";
         }
     }
 }

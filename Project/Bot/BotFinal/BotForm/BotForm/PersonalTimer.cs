@@ -45,6 +45,14 @@ namespace BotForm
             PublicTiming.Start(tick);
         }
 
+        public void Abort()
+        {
+            GuiManager.WriteToOutput("Aborted timer. Check Debug for why.");
+            TwitchChatBot.me.myHandler.Handle(TwitchChatBot.me.Client, new Happening(Happening.State.Error, "Cannot connect to Twitch IRC."));
+            PublicTiming.Abort();
+            
+        }
+        
         public void WaitForMillis(int millis)
         {
             int milatstart = PublicTiming.ElapsedMillis;
@@ -60,19 +68,20 @@ namespace BotForm
             {
                 TwitchChatBot.me.Reload();
             }
-            
-          
-                //TODO
-                //myDel del = () => TwitchChatBot.me.WriteToOutput("test");
-                //try
-                //{
-                //    TwitchChatBot.me.Invoke(del);
-                //}
-                //catch(InvalidOperationException e) detects when form closes
-                //{
-                //    Application.Exit();
-                //    Environment.Exit(0);
-                //}
+
+
+            //TODO
+            myDel del = () => { };
+                try
+                {
+                    TwitchChatBot.me.Invoke(del);
+                }
+                catch(InvalidOperationException e)
+                {
+                if (TwitchChatBot.me.Client.CanConnect()) TwitchChatBot.me.Client.SendChatMessage("Goodbye! HeyGuys");
+                    Application.Exit();
+                    Environment.Exit(0);
+                }
                 //PUT CHECKS HERE:
 
                 string message = TwitchChatBot.me.Client.GetLastStreamMessage();

@@ -23,6 +23,10 @@ namespace BotForm
         public FileEditor(string fileDir)
         {
             myFileDir = fileDir;
+            if (!File.Exists(myFileDir))
+            {
+                File.Create(myFileDir);
+            }
             myThreadStart = new ThreadStart(Execute);
             myThread = new Thread(myThreadStart);
             

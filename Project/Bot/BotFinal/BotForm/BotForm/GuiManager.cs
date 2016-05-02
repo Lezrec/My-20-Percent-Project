@@ -27,5 +27,24 @@ namespace BotForm
 
             TwitchChatBot.me.Invoke(voker);
         }
+
+        public static void WriteToCommands()
+        {
+            Command[] comds = TwitchChatBot.me.cmdList.GetAllCommands();
+            TwitchChatBot.me.WipeCommands();
+            string cmds = "Commands:";
+            string whatItDos = "What it does:";
+            TwitchChatBot.me.WriteToCMDTrig(cmds);
+            TwitchChatBot.me.WriteToCMDWhatItDo(whatItDos);
+            foreach(Command command in comds)
+            {
+                //cmds += command.Trigger;
+              //  whatItDos += (string)command.ToDo;
+                TwitchChatBot.me.WriteToCMDWhatItDo(command.ToDo);
+                TwitchChatBot.me.WriteToCMDTrig(command.Trigger);
+            }
+            
+        }
+
     }
 }

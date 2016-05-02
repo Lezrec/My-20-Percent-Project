@@ -12,5 +12,14 @@ namespace BotForm
         {
 
         }
+
+        private const string objName = "Developer";
+        public override string MyObjectName
+        {
+            get
+            {
+                return objName;
+            }
+        }
     }
 }
