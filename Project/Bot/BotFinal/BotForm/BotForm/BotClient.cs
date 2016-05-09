@@ -74,8 +74,10 @@ namespace BotForm
         {
             WriteToClientStream("JOIN #" + channel.Name);
             TwitchChatBot.me.ChannelIn = channel;
-            TwitchChatBot.me.cmdsFromFile = new FileEditor(channel.Name + "_cmds.txt");
-            SendChatMessage("Hello " + channel.Name + "! I am LezrecBot!");
+            TwitchChatBot.me.cmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_cmds.txt");
+            TwitchChatBot.me.modCmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_mod_cmds.txt");
+            TwitchChatBot.me.ownerCmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_owner_cmds.txt");
+            //SendChatMessage("Hello " + channel.Name + "! I am LezrecBot!");
         }
 
         

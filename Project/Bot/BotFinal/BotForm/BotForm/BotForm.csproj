@@ -62,10 +62,16 @@
     <Compile Include="HappeningHandler.cs" />
     <Compile Include="HappeningList.cs" />
     <Compile Include="IDataMethod.cs" />
+    <Compile Include="KeyWordList.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageScrubber.cs" />
     <Compile Include="Mod.cs" />
+    <Compile Include="ModCommand.cs" />
+    <Compile Include="ModCommandList.cs" />
+    <Compile Include="ModList.cs" />
     <Compile Include="Owner.cs" />
+    <Compile Include="OwnerCommand.cs" />
+    <Compile Include="OwnerCommandList.cs" />
     <Compile Include="PersonalTimer.cs" />
     <Compile Include="TwitchChatBot.cs">
       <SubType>Form</SubType>

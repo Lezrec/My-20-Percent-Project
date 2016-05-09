@@ -8,8 +8,8 @@ namespace BotForm
 {
     public class User : BotRelatedObject , IDataMethod //TODO: this
     {
-        private string myName;
-        private int priority;
+        protected string myName;
+        protected int priority;
 
         public User(string name, int prio)
         {
@@ -26,6 +26,11 @@ namespace BotForm
             set { myName = value; }
         }
 
+        public int Priority
+        {
+            get { return priority; }
+            set { priority = value; }
+        }
 
 
         private const string objName = "User";

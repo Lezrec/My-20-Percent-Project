@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace BotForm
 {
-    internal class Developer : User
+    internal class KeyWordList : BotRelatedObject, IDataMethod
     {
-        public Developer(string name, int prio) : base(name, prio)
-        {
-            priority = 3;
-        }
-
-        private const string objName = "Developer";
+        private const string objName = "KeyWordList";
         public override string MyObjectName
         {
             get
             {
                 return objName;
             }
+        }
+
+        public void SendData()
+        {
+            
         }
     }
 }

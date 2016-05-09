@@ -3,62 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PersonalTwitch.Storage;
 
 namespace BotForm
 {
-    internal class CommandList : BotRelatedObject, IDataMethod 
+    
+    class OwnerCommandList : BotRelatedObject, IDataMethod
     {
-        private LinkedList<Command> commands = new LinkedList<Command>();
+        private LinkedList<OwnerCommand> OwnerCommands = new LinkedList<OwnerCommand>();
         private bool comingFromFile;
-        
-        public CommandList()
+
+        public OwnerCommandList()
         {
             WriteFromFileToList();
         }
 
-        internal void AddToHead(Command comd)
+        internal void AddToHead(OwnerCommand comd)
         {
             if (!Contains(comd))
             {
-                commands.AddFirst(comd);
+                OwnerCommands.AddFirst(comd);
                 if (!comingFromFile)
                 {
-                    WriteToFile(); 
+                    WriteToFile();
                 }
-                
+
 
             }
             comingFromFile = false;
-            
-            
+
+
         }
 
-        internal Command GetHead()
+        internal OwnerCommand GetHead()
         {
-            return commands.First.Value;
+            return OwnerCommands.First.Value;
         }
 
-        internal Command GetTail()
+        internal OwnerCommand GetTail()
         {
-            return commands.Last.Value;
+            return OwnerCommands.Last.Value;
         }
 
-        internal Command[] GetAllCommands()
+        internal OwnerCommand[] GetAllOwnerCommands()
         {
-            return commands.ToArray<Command>();
+            return OwnerCommands.ToArray<OwnerCommand>();
         }
 
-        internal bool Contains(Command comd)
+        internal bool Contains(OwnerCommand comd)
         {
-            Command[] all = GetAllCommands();
-            foreach(Command c in all)
+            OwnerCommand[] all = GetAllOwnerCommands();
+            foreach (OwnerCommand c in all)
             {
                 if (c.Trigger == comd.Trigger)
                 {
                     return true;
                 }
-                
+
             }
             return false;
         }
@@ -66,24 +66,24 @@ namespace BotForm
         internal void WriteToFile()
         {
             //todo make this work with the dels
-            Command[] todos = GetAllCommands();
+            OwnerCommand[] todos = GetAllOwnerCommands();
             string write = "";
-            for(int i = 0; i < todos.Length; i++)
+            for (int i = 0; i < todos.Length; i++)
             {
                 //Θ = beginning, ☻ = end
-                write += "Θ" + todos[i].Trigger + "," + todos[i].ToDo  + "NEW_LINE";
+                write += "Θ" + todos[i].Trigger + "," + todos[i].ToDo + "NEW_LINE";
             }
-            TwitchChatBot.me.cmdsFromFile.WriteAllText(write);
-            
+            TwitchChatBot.me.ownerCmdsFromFile.WriteAllText(write);
+
         }
 
-        internal Command[] GetAllCommandsFromFile()
+        internal OwnerCommand[] GetAllOwnerCommandsFromFile()
         {
-            string all = TwitchChatBot.me.cmdsFromFile.ReadAllText();
+            string all = TwitchChatBot.me.ownerCmdsFromFile.ReadAllText();
             if (all == "") return null;
             string[] splitUp = all.Split(new string[] { "NEW_LINE" }, StringSplitOptions.None);
-            Command[] ret = new Command[splitUp.Length];
-            for(int i = 0; i < ret.Length; i++)
+            OwnerCommand[] ret = new OwnerCommand[splitUp.Length];
+            for (int i = 0; i < ret.Length; i++)
             {
                 string modify = splitUp[i];
                 if (modify == "") return ret;
@@ -92,76 +92,76 @@ namespace BotForm
                 string trigger = modify.Substring(0, whereTrigger);
                 modify = modify.Substring(whereTrigger + 1);
                 string todo = modify;
-                ret[i] = new Command(trigger, todo);
-                
+                ret[i] = new OwnerCommand(trigger, todo);
+
             }
             return ret;
-            
-            
+
+
         }
 
         internal void WriteFromFileToList()
         {
             try
             {
-                Command[] todos = GetAllCommandsFromFile();
+                OwnerCommand[] todos = GetAllOwnerCommandsFromFile();
                 if (todos == null) return;
-                foreach (Command comd in todos)
+                foreach (OwnerCommand comd in todos)
                 {
                     if (comd == null) return;
                     comingFromFile = true;
                     AddToHead(comd);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TwitchChatBot.me.Client.SendChatMessage("!");
             }
 
-            
+
         }
 
         public void UpdateGUI()
         {
-            GuiManager.WriteToCommands();
+            //TODO
         }
 
         internal string[] GetAllTriggers()
         {
-            Command[] use = GetAllCommands();
+            OwnerCommand[] use = GetAllOwnerCommands();
             string[] ret = new string[use.Length];
-            for(int i = 0; i < GetAllCommands().Length; i++)
+            for (int i = 0; i < GetAllOwnerCommands().Length; i++)
             {
                 ret[i] = use[i].Trigger;
             }
             return ret;
         }
 
-        internal Command RemoveHead()
+        internal OwnerCommand RemoveHead()
         {
-            Command cmd = GetHead();
-            commands.RemoveFirst();
+            OwnerCommand cmd = GetHead();
+            OwnerCommands.RemoveFirst();
             return cmd;
         }
 
-        internal Command RemoveTail()
+        internal OwnerCommand RemoveTail()
         {
-            Command cmd = GetTail();
-            commands.RemoveLast();
+            OwnerCommand cmd = GetTail();
+            OwnerCommands.RemoveLast();
             return cmd;
         }
 
-        internal Command RemoveCommand(Command command)
+        internal OwnerCommand RemoveOwnerCommand(OwnerCommand OwnerCommand)
         {
-            commands.Remove(command);
+            OwnerCommands.Remove(OwnerCommand);
             WriteToFile();
-            return command;
+            return OwnerCommand;
         }
 
-        internal Command RemoveCommandUsingOnlyTrigger(string trigger)
+        internal OwnerCommand RemoveOwnerCommandUsingOnlyTrigger(string trigger)
         {
             string[] todos = GetAllTriggers();
-            for(int i = 0; i < todos.Length; i++)
+            for (int i = 0; i < todos.Length; i++)
             {
                 if (trigger == todos[i])
                 {
@@ -171,35 +171,35 @@ namespace BotForm
             return null;
         }
 
-        internal Command RemoveAtIndex(int index)
+        internal OwnerCommand RemoveAtIndex(int index)
         {
-            LinkedList<Command>.Enumerator enumerator = commands.GetEnumerator();
+            LinkedList<OwnerCommand>.Enumerator enumerator = OwnerCommands.GetEnumerator();
             enumerator.MoveNext();
             for (int i = 0; i < index; i++)
             {
                 enumerator.MoveNext();
             }
-            return RemoveCommand(enumerator.Current);
-            
+            return RemoveOwnerCommand(enumerator.Current);
+
         }
 
-        internal Command GetAtIndex(int index)
+        internal OwnerCommand GetAtIndex(int index)
         {
-            LinkedList<Command>.Enumerator enumerator = commands.GetEnumerator();
-            for(int i = 0; i < index; i++)
+            LinkedList<OwnerCommand>.Enumerator enumerator = OwnerCommands.GetEnumerator();
+            for (int i = 0; i < index; i++)
             {
                 enumerator.MoveNext();
             }
             return enumerator.Current;
         }
 
-        internal void AddToTail(Command comd)
+        internal void AddToTail(OwnerCommand comd)
         {
-            commands.AddLast(comd);
+            OwnerCommands.AddLast(comd);
         }
 
 
-        private const string objName = "CommandList";
+        private const string objName = "OwnerCommandList";
         public override string MyObjectName
         {
             get

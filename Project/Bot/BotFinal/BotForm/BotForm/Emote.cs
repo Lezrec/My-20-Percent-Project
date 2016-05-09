@@ -15,6 +15,8 @@ namespace BotForm
         WutFace,
         SeemsGood,
         FeelsBadMan,
+        KKona,
+
 
     }
 

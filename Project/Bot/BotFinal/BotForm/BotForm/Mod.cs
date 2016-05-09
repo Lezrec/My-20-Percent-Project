@@ -10,8 +10,11 @@ namespace BotForm
     {
         public Mod(string name, int prio) : base(name, prio)
         {
-
+            priority = 1;
+            myName = name;
         }
+
+       
 
         private const string objName = "Mod";
         public override string MyObjectName

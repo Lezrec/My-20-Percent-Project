@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace BotForm
 {
@@ -85,8 +86,48 @@ namespace BotForm
                             TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Error, "Remove funked up, probably the user: " + modify));
                         }
                     }
+                    else if (lastMessage.Said.Contains("!addmodcommand") && lastMessage.Said.Trim().IndexOf("!addmodcommand") == 0 && (user == TwitchChatBot.me.ChannelIn.Name || user == TwitchChatBot.THE_MAN.Name))
+                    {
+                        int aCL = "!addmodcommand".Length;
+                        string modify = lastMessage.Said.Substring(aCL).Trim();
+                        if (modify.IndexOf("!") == 0)
+                        {
+                            string[] chs = modify.Split(' ');
+                            int tL = chs[0].Length + 1;
+                            string trigger = chs[0];
+                            string todo = modify.Substring(tL).Trim();
+                            AddModCommand(trigger, todo);
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Mod Command added: " + trigger));
+                            //GuiManager.WriteToCommands();
+                            
+                        }
+                        else
+                        {
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Error, "Mod Command funked up, probably the user: " + modify));
+                        }
+                    }
+                    else if (lastMessage.Said.Contains("!addownercommand") && lastMessage.Said.Trim().IndexOf("!addownercommand") == 0 && (user == TwitchChatBot.me.ChannelIn.Name || user == TwitchChatBot.THE_MAN.Name))
+                    {
+                        int aCL = "!addownercommand".Length;
+                        string modify = lastMessage.Said.Substring(aCL).Trim();
+                        if (modify.IndexOf("!") == 0)
+                        {
+                            string[] chs = modify.Split(' ');
+                            int tL = chs[0].Length + 1;
+                            string trigger = chs[0];
+                            string todo = modify.Substring(tL).Trim();
+                            AddOwnerCommand(trigger, todo);
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Owner Command added: " + trigger));
+                            //GuiManager.WriteToCommands();
 
-                    for (int i = 0; i < TwitchChatBot.me.cmdList.GetAllTriggers().Length; i++)
+                        }
+                        else
+                        {
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Error, "Owner Command funked up, probably the user: " + modify));
+                        }
+                    }
+
+                        for (int i = 0; i < TwitchChatBot.me.cmdList.GetAllTriggers().Length; i++)
                     {
                         if (lastMessage.Said.Trim() == TwitchChatBot.me.cmdList.GetAllTriggers()[i])
                         {
@@ -106,20 +147,40 @@ namespace BotForm
                 {
                     if (message.Contains("366"))
                     {
-                        TwitchChatBot.myUsers.Fill(message);
-                        User[] allUsers = TwitchChatBot.myUsers.ToArray();
-                        int x = allUsers.Length;
+                        WebClient client = new WebClient();
+                        string downloadString = client.DownloadString($"http://tmi.twitch.tv/group/user/{TwitchChatBot.me.ChannelIn.Name.ToLower()}/chatters");
+                        string modStart = downloadString.Substring(downloadString.IndexOf("moderators") + 14);
+                        string[] things = modStart.Split(new string[] { "]" }, StringSplitOptions.RemoveEmptyEntries);
+                        string modStr = things[0];
+                        string[] mods = modStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries );
+                        Mod[] _array = new Mod[mods.Length];
+                        for(int i = 0; i < mods.Length; i++)
+                        {
+                            mods[i] = mods[i].Trim().ToLower();
+                            mods[i] = mods[i].Substring(1, mods[i].Length - 2);
+                            _array[i] = new Mod(mods[i], 1);
+                        }
+                        
+                        string userStr = things[4].Substring(",\n    \"viewers\": [".Length);
+                        string[] users = userStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        User[] _userArray = new User[users.Length];
+                        for (int i = 0; i < users.Length; i++)
+                        {
+                            users[i] = users[i].Trim().ToLower();
+                            users[i] = users[i].Substring(1, users[i].Length - 2);
+                            _userArray[i] = new User(users[i], 0);
+                        }
+                        TwitchChatBot.myMods.Fill(_array);
+                        TwitchChatBot.myUsers.Fill(_userArray);
+
+                        
                     }
                     Message msg = new Message(message, TwitchChatBot.Twitch_IRC);
                     lastMessage = msg;
                     lastMessageString = message;
                     lastUser = TwitchChatBot.Twitch_IRC;
 
-                    //if (lastMessageString.Contains("376") && !TwitchChatBot.connected)
-                    //{
-                    //    TwitchChatBot.me.Client.JoinChannel(TwitchChatBot.me.ChannelIn);
-                    //    TwitchChatBot.connected = true;
-                    //}
+                    
 
                     TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Message created from IRC?")); //Happening manager manges debug
 
@@ -131,6 +192,34 @@ namespace BotForm
                 
 
             }
+        }
+
+        private void AddModCommand(string trigger, string todo)
+        {
+            for (int i = 0; i < TwitchChatBot.me.modCmdList.GetAllTriggers().Length; i++)
+            {
+                if (trigger == TwitchChatBot.me.modCmdList.GetAllTriggers()[i])
+                {
+                    return; //makes sure that you cant add a command that does 2 things
+                }
+            }
+
+            ModCommand command = new ModCommand(trigger, todo);
+            TwitchChatBot.me.modCmdList.AddToHead(command);
+        }
+
+        private void AddOwnerCommand(string trigger, string todo)
+        {
+            for (int i = 0; i < TwitchChatBot.me.ownerCmdList.GetAllTriggers().Length; i++)
+            {
+                if (trigger == TwitchChatBot.me.ownerCmdList.GetAllTriggers()[i])
+                {
+                    return; //makes sure that you cant add a command that does 2 things
+                }
+            }
+
+            OwnerCommand command = new OwnerCommand(trigger, todo);
+            TwitchChatBot.me.ownerCmdList.AddToHead(command);
         }
 
         private void AddCommand(string trigger, string todo)

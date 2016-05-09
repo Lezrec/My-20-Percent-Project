@@ -16,7 +16,11 @@ namespace BotForm
     public partial class TwitchChatBot : Form //cant extend botrelatedobject but if this is truly good it shouldnt need to have any important methods inside here
     {
         internal CommandList cmdList;
+        internal ModCommandList modCmdList;
+        internal OwnerCommandList ownerCmdList;
         internal FileEditor cmdsFromFile;
+        internal FileEditor modCmdsFromFile;
+        internal FileEditor ownerCmdsFromFile;
         internal PersonalTimer timer;
         internal static bool started = false;
         internal HappeningHandler myHandler;
@@ -28,6 +32,7 @@ namespace BotForm
         internal static bool connected = false;
         internal FileEditor myEditor;
         internal static UserList myUsers = new UserList();
+        internal static ModList myMods = new ModList();
 
         private object loadObj;
         private EventArgs loadEventArgs;
@@ -42,7 +47,7 @@ namespace BotForm
             
             me = this;
             
-            ChannelIn = new Channel("lezrecop"); //start in my channel because why not :)
+            ChannelIn = new Channel("shmellyorc"); //start in my channel because why not :)
             Client = new BotClient();
             Scrubber = new MessageScrubber();
         }
@@ -73,8 +78,8 @@ namespace BotForm
             loadEventArgs = e;
             if (!started)
             {
-                FileEditor testEditor = new FileEditor("test.txt");
-                testEditor.WriteLine("kay");
+                
+                
                 Size = new Size((int)1280 / (int)2, (int)720 / (int)2);
                 MinimumSize = Size;
                 MaximumSize = Size;
@@ -87,11 +92,15 @@ namespace BotForm
                 Client.Load();
                 
                 cmdsFromFile = new FileEditor(ChannelIn.Name + "_cmds.txt");
+                modCmdsFromFile = new FileEditor(ChannelIn.Name + "_mod_cmds.txt");
+                ownerCmdsFromFile = new FileEditor(ChannelIn.Name + "_owner_cmds.txt");
                 if (Client.CanConnect())
                 {
                     timer.Start();
                     Client.JoinChannel(ChannelIn);
                     cmdList = new CommandList();
+                    modCmdList = new ModCommandList();
+                    ownerCmdList = new OwnerCommandList();
                     cmdList.UpdateGUI();
                 }
                 else

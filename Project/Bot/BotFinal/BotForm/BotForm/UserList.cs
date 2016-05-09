@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace BotForm
 {
-    internal class UserList
+    internal class UserList : BotRelatedObject, IDataMethod
     {
         List<User> users = new List<User>();
 
-        public void Fill(string raw)
+        private const string objName = "UserList";
+        public override string MyObjectName
         {
-            users = new List<User>();
-            int length = $"lezrecbot.tmi.twitch.tv 366 lezrecbot ".Length;
-            string modify = raw.Substring(length);
-            string[] todos = modify.Split(new string[] { "#" }, StringSplitOptions.RemoveEmptyEntries);
-            for(int i = 0; i < todos.Length; i++)
+            get
             {
-                string use = todos[i];
-                if (use == " ") continue;
+                return objName;
+            }
+        }
 
-                if (use.Contains(":")) use = use.Substring(0, use.Length - " :End of /NAMES list".Length);
-                Add(use.Trim());
-                //more testing needs to be done
-            } 
+        public void Fill(User[] users)
+        {
+            foreach(User usr in users)
+            {
+                this.users.Add(usr);
+            }
         }
 
         public User[] ToArray()
@@ -41,6 +41,11 @@ namespace BotForm
         public bool InList(User user)
         {
             return users.Contains(user);
+        }
+
+        public void SendData()
+        {
+            
         }
     }
 }
