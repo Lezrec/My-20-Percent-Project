@@ -66,6 +66,14 @@ Here is a complete list of what I’m going to implement before the end of the pro
 4.	Information through commands
 5.	Finishing the GUI
 Total Word Count: 180
+Week 14 (May 8, 2016):
+	I didn’t do as much work as I should’ve over the weekend and in general, so I didn’t get the deliverable done. However I have implemented a couple more classes to deal with owner and mod only commands. Just need to get the storage working with those and I’ll be golden. After that is done there needs to be a massive GUI layout because it’s a mess at the moment and doesn’t really do much. After that, there needs to be testing done on everything, and it needs to have the same if not more features on it. I might scrap the word restriction but I can implement the base informational commands that just come with every channel such as “!credits” and stuff like that. Everything is a mess, and it isn’t nearly as straightforward as I thought this final build was going to be, but since I don’t feel like putting in the effort of streamlining it, I have to make do with my go to solutions.
+Here is a list that I will 100% implement before presenting:
+1.	User list and features coming with it.
+2.	Time and uptime of the channel (not sure about the latter)
+3.	Information through commands
+4.	Finishing the GUI
+Total Word Count: 207
 
 
 
