@@ -74,6 +74,12 @@ Here is a list that I will 100% implement before presenting:
 3.	Information through commands
 4.	Finishing the GUI
 Total Word Count: 207
+Week 15 (May 15, 2016):
+	I added uptime and chat logging along with the user list. Everything else was just updated and there isn’t very much to say. The bot is reaching its peak and next week will just be improving the UI and testing to make sure everything works. My experience with doing all of this is that making a program is 15% typing code to add a feature and 85% typing code to debug a feature. This means I have to logically engage with my program and sometimes I have lapses in judgement that actually help me later on. Next week is the final week and I think I have met all expectations.
+Total Word Count: 110
+Week 16 (May 23, 2016):
+	The final week was very calm. I just added buttons, text boxes, and labels to my UI and tested everything to make sure it didn’t break. I am proud of my bot that I have made and if I had to try making it again I’m not sure how much better I could get with my current experience. I haven’t been getting much sleep due to anxiety attacks so I haven’t felt motivated to work on it, however everything was already implemented. Moving forward everything is going to be focused on the presentation and practicing it. I’m hoping the demonstration doesn’t go completely off the wall and go AWOL on me. My greatest fear is that people won’t understand how or why this is useful and I’ll be judged more on what they understand on a basic level. I can finally say that I have finished (mostly) my project and I’m ready to present.
+Total Word Count: 154
 
 
 
