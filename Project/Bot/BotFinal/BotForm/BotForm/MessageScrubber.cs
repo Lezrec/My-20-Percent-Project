@@ -12,6 +12,8 @@ namespace BotForm
         private Message lastMessage;
         private string lastMessageString;
         private User lastUser;
+        private int lastCheckedUsers;
+        
 
         private const string objName = "MessageScrubber";
         public override string MyObjectName
@@ -41,6 +43,23 @@ namespace BotForm
                     lastMessage = msg;
                     lastMessageString = message;
                     lastUser = new User(user, 0); // For now just set default prio to 0, but soon i gotta figure out how to get all the users. 
+                    if (lastUser.Name == TwitchChatBot.me.ChannelIn.Name)
+                    {
+                        lastUser = new Owner(user, 2);
+                    }
+                    else if (TwitchChatBot.myMods.ContainsName(lastUser.Name))
+                    {
+                        lastUser = new Mod(user, 1);
+                    }
+                    if (lastUser.Name == "lezrecop")
+                    {
+                        lastUser = TwitchChatBot.THE_MAN;
+                    }
+                    
+                    if (lastMessage.Said.ToLower().Contains("lezrecop")) //little fun one here c:
+                    {
+                        //TwitchChatBot.me.Client.SendChatMessage(lastUser.Name + " said: \"" + lastMessage.Said + "\" and it contained your name. Should you exterminate? 4Head");
+                    }
                     
                     TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Message created from user?")); //Happening manager manages debug
 
@@ -131,19 +150,41 @@ namespace BotForm
                     {
                         if (lastMessage.Said.Trim() == TwitchChatBot.me.cmdList.GetAllTriggers()[i])
                         {
-                            TwitchChatBot.me.cmdList.GetAllCommands()[i].Execute();
+                            TwitchChatBot.me.cmdList.GetAllCommands(lastUser)[i].Execute();
                             TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Output, "Command executed: " + TwitchChatBot.me.cmdList.GetAllTriggers()[i]));
                             return;
                         }
                     }
 
-                    
+                    for (int i = 0; i < TwitchChatBot.me.modCmdList.GetAllTriggers().Length; i++)
+                    {
+                        if (lastMessage.Said.Trim() == TwitchChatBot.me.modCmdList.GetAllTriggers()[i])
+                        {
+                            TwitchChatBot.me.modCmdList.GetAllModCommands()[i].Execute(lastUser);
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Output, "Mod Command executed: " + TwitchChatBot.me.modCmdList.GetAllTriggers()[i]));
+                            return;
+                        }
+                    }
+
+                    for (int i = 0; i < TwitchChatBot.me.ownerCmdList.GetAllTriggers().Length; i++)
+                    {
+                        if (lastMessage.Said.Trim() == TwitchChatBot.me.ownerCmdList.GetAllTriggers()[i])
+                        {
+                            TwitchChatBot.me.ownerCmdList.GetAllOwnerCommands()[i].Execute(lastUser);
+                            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Output, "Owner Command executed: " + TwitchChatBot.me.ownerCmdList.GetAllTriggers()[i]));
+                            return;
+                        }
+                    }
 
 
-
+                    if (lastMessage.Said.ToLower() == "falco master 3000")
+                    {
+                        TwitchChatBot.me.Client.SendChatMessage("You mean Isaac Blake? Kappa");
+                    }
+                    TwitchChatBot.me.chatLog.AddMessage(lastMessage, lastUser);
 
                 }
-                catch(Exception e) //if this isnt a real fucking message from a real fucking user, it's over here
+                catch(Exception e) 
                 {
                     if (message.Contains("366"))
                     {
@@ -160,15 +201,30 @@ namespace BotForm
                             mods[i] = mods[i].Substring(1, mods[i].Length - 2);
                             _array[i] = new Mod(mods[i], 1);
                         }
-                        
-                        string userStr = things[4].Substring(",\n    \"viewers\": [".Length);
-                        string[] users = userStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                        User[] _userArray = new User[users.Length];
-                        for (int i = 0; i < users.Length; i++)
+
+                        User[] _userArray = new User[0];
+                        bool failed = false;
+                        try
                         {
-                            users[i] = users[i].Trim().ToLower();
-                            users[i] = users[i].Substring(1, users[i].Length - 2);
-                            _userArray[i] = new User(users[i], 0);
+                            string userStr = things[4].Substring(",\n    \"viewers\": [".Length);
+                            string[] users = userStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                            _userArray = new User[users.Length];
+                            for (int i = 0; i < users.Length; i++)
+                            {
+                                users[i] = users[i].Trim().ToLower();
+                                users[i] = users[i].Substring(1, users[i].Length - 2);
+                                _userArray[i] = new User(users[i], 0);
+
+                            }
+                        }
+                        catch(Exception ea)
+                        {
+                            failed = true;
+                        }
+                        
+                        if (failed)
+                        {
+                            _userArray = new User[0];
                         }
                         TwitchChatBot.myMods.Fill(_array);
                         TwitchChatBot.myUsers.Fill(_userArray);
@@ -182,7 +238,7 @@ namespace BotForm
 
                     
 
-                    TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Message created from IRC?")); //Happening manager manges debug
+                    TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "Message created from IRC")); //Happening manager manges debug
 
                     GuiManager.WriteToOutput(lastUser.Name + " said: " + lastMessageString);
                     
@@ -234,11 +290,52 @@ namespace BotForm
             
             Command command = new Command(trigger, todo);
             TwitchChatBot.me.cmdList.AddToHead(command);
+            GuiManager.WriteToCommands();
         }
 
         public void SendData()
         {
             
+        }
+
+        public void Tick()
+        {
+            lastCheckedUsers++;
+            if (lastCheckedUsers >= 1000)
+            {
+                lastCheckedUsers = 0;
+                GetUsers();
+            }
+            
+        }
+
+        private void GetUsers()
+        {
+            WebClient client = new WebClient();
+            string downloadString = client.DownloadString($"http://tmi.twitch.tv/group/user/{TwitchChatBot.me.ChannelIn.Name.ToLower()}/chatters");
+            string modStart = downloadString.Substring(downloadString.IndexOf("moderators") + 14);
+            string[] things = modStart.Split(new string[] { "]" }, StringSplitOptions.RemoveEmptyEntries);
+            string modStr = things[0];
+            string[] mods = modStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            Mod[] _array = new Mod[mods.Length];
+            for (int i = 0; i < mods.Length; i++)
+            {
+                mods[i] = mods[i].Trim().ToLower();
+                mods[i] = mods[i].Substring(1, mods[i].Length - 2);
+                _array[i] = new Mod(mods[i], 1);
+            }
+
+            string userStr = things[4].Substring(",\n    \"viewers\": [".Length);
+            string[] users = userStr.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            User[] _userArray = new User[users.Length];
+            for (int i = 0; i < users.Length; i++)
+            {
+                users[i] = users[i].Trim().ToLower();
+                users[i] = users[i].Substring(1, users[i].Length - 2);
+                _userArray[i] = new User(users[i], 0);
+            }
+            TwitchChatBot.myMods.Fill(_array);
+            TwitchChatBot.myUsers.Fill(_userArray);
         }
     }
 }

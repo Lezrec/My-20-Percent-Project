@@ -39,7 +39,7 @@ namespace BotForm
                     stateVal = "Something was deleted";
                     break;
                 case Happening.State.Error:
-                    stateVal = "You dun fucked up";
+                    stateVal = "Error!";
                     break;
                 case Happening.State.Input:
                     stateVal = "Something was used as input, must be important.";

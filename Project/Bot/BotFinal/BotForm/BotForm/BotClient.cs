@@ -70,6 +70,13 @@ namespace BotForm
             myClient = new TcpClient(ip, port);
         }
 
+        public void Whisper(string msg, User other)
+        {
+            WriteToClientStream("CAP REQ :twitch.tv/commands");
+            WriteToClientStream("PRIVMSG #jtv :.w " + other.Name + " " + msg);
+            
+        }
+
         public void JoinChannel(Channel channel)
         {
             WriteToClientStream("JOIN #" + channel.Name);
@@ -77,7 +84,14 @@ namespace BotForm
             TwitchChatBot.me.cmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_cmds.txt");
             TwitchChatBot.me.modCmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_mod_cmds.txt");
             TwitchChatBot.me.ownerCmdsFromFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_owner_cmds.txt");
-            //SendChatMessage("Hello " + channel.Name + "! I am LezrecBot!");
+            ModList.modFile = new FileEditor(TwitchChatBot.me.ChannelIn.Name + "_mods.txt");
+            TwitchChatBot.me.cmdList = new CommandList();
+            TwitchChatBot.me.modCmdList = new ModCommandList();
+            TwitchChatBot.me.ownerCmdList = new OwnerCommandList();
+            TwitchChatBot.me.chatLog = new ChatLog(channel);
+            //SendChatMessage("Hola " + channel.Name + "! Soy LezrecBot! LezrecOp me hizo, y lo amo para eso <3.");
+            //Whisper("psst, your bot is living Kappa", TwitchChatBot.THE_MAN);
+            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Modification, $"Changed channel to {channel.Name}"));
         }
 
         

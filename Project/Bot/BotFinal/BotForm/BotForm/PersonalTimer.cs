@@ -21,6 +21,26 @@ namespace BotForm
             }
         }
 
+        public int Seconds
+        {
+            get { return (int)PublicTiming.ElapsedSeconds % 60; }
+        }
+
+        public int TotalElapsedSeconds
+        {
+            get { return Seconds + Minutes * 60 + Hours * 3600; }
+        }
+
+        public int Minutes
+        {
+            get { return ((int)PublicTiming.ElapsedSeconds / 60) % 60; }
+        }
+
+        public int Hours
+        {
+            get { return (int)PublicTiming.ElapsedSeconds / 3600; }
+        }
+
         private static PersonalTimer me;
         private delegate void myDel();
         private const int tick = 200;
@@ -91,6 +111,7 @@ namespace BotForm
                 }
                 else
                 {
+                TwitchChatBot.me.Scrubber.Tick();
                     TwitchChatBot.me.Scrubber.Scrub(message);
                     try
                     {

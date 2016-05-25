@@ -10,7 +10,7 @@ namespace BotForm
     {
         private List<Mod> mods = new List<Mod>();
         private Channel currentChannel;
-        private FileEditor modFile;
+        internal static FileEditor modFile;
 
         private const string objName = "ModList";
         public override string MyObjectName
@@ -77,6 +77,15 @@ namespace BotForm
         public bool Contains(Mod mod)
         {
             return mods.Contains(mod);
+        }
+
+        public bool ContainsName(string name)
+        {
+            foreach(Mod n in ToArray())
+            {
+                if (name == n.Name) return true;
+            }
+            return false;
         }
 
         public bool Contains(string str)

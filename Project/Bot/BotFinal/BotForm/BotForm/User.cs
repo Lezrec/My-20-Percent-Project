@@ -17,7 +17,7 @@ namespace BotForm
             if (prio > 3) prio = 3;
             if (prio < 0) prio = 0;
             priority = prio;
-            TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "User created"));
+            //TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Creation, "User created"));
         }
 
         public string Name

@@ -30,8 +30,16 @@ namespace BotForm
 
         public static void WriteToCommands()
         {
-            Command[] comds = TwitchChatBot.me.cmdList.GetAllCommands();
-            TwitchChatBot.me.WipeCommands();
+            Command[] comds = TwitchChatBot.me.cmdList.GetAllCommands(TwitchChatBot.THE_MAN);
+            try
+            {
+                TwitchChatBot.me.WipeCommands();
+            }
+            catch(Exception e)
+            {
+                //TwitchChatBot.me.Client.SendChatMessage(e.StackTrace);
+            }
+            
             string cmds = "Commands:";
             string whatItDos = "What it does:";
             TwitchChatBot.me.WriteToCMDTrig(cmds);

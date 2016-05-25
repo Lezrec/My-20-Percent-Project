@@ -52,6 +52,7 @@
     <Compile Include="BotClient.cs" />
     <Compile Include="BotRelatedObject.cs" />
     <Compile Include="Channel.cs" />
+    <Compile Include="ChatLog.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandList.cs" />
     <Compile Include="Developer.cs" />

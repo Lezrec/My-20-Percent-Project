@@ -11,10 +11,12 @@ namespace BotForm
     {
         private LinkedList<Command> commands = new LinkedList<Command>();
         private bool comingFromFile;
+        private bool addedStuff;
         
         public CommandList()
         {
             WriteFromFileToList();
+            
         }
 
         internal void AddToHead(Command comd)
@@ -44,14 +46,65 @@ namespace BotForm
             return commands.Last.Value;
         }
 
-        internal Command[] GetAllCommands()
+        internal Command[] GetAllCommands(User user)
         {
+            bool cmdHere = false;
+            bool uptimeHere = false;
+            foreach(Command comd in commands.ToArray<Command>())
+            {
+                if (comd.Trigger == "!command") cmdHere = true;
+                if (comd.Trigger == "!uptime") uptimeHere = true;
+            }
+            if (!addedStuff)
+            {
+                Command.delToDo uptimeDel = () =>
+                {
+                    string x = "Uptime: ";
+                    x += TwitchChatBot.me.timer.Hours + " hours, " + TwitchChatBot.me.timer.Minutes + " minutes, " + TwitchChatBot.me.timer.Seconds + " seconds.";
+                    TwitchChatBot.me.Client.SendChatMessage(x);
+                };
+                Command uptime = new Command("!uptime", uptimeDel);
+                commands.AddFirst(uptime);
+
+                Command.delToDo creditsDel = () =>
+               {
+                   string x = "This bot was made by LezrecOP, shout out to my master <3";
+                   TwitchChatBot.me.Client.SendChatMessage(x);
+               };
+                Command credits = new Command("!credits", creditsDel);
+                commands.AddFirst(credits);
+
+                string schreiber = "My favorite teacher Kappa";
+                Command schrieb = new Command("!schreiber", schreiber);
+                commands.AddFirst(schrieb);
+
+
+                Command.delToDo commandsDel = () =>
+                {
+                    string x = "Commands: ";
+                    foreach (Command cmd in commands.ToArray<Command>())
+                    {
+                        x += cmd.Trigger + ", ";
+                    }
+                    x = x.Substring(0, x.Length - 2);
+                    x += ".";
+                    TwitchChatBot.me.Client.Whisper(x, user);
+                };
+                Command cmds = new Command("!commands", commandsDel);
+                commands.AddFirst(cmds);
+                addedStuff = true;
+            }
+            
+
+            Command[] comds = commands.ToArray<Command>();
+            
+            
             return commands.ToArray<Command>();
         }
 
         internal bool Contains(Command comd)
         {
-            Command[] all = GetAllCommands();
+            Command[] all = GetAllCommands(TwitchChatBot.THE_MAN);
             foreach(Command c in all)
             {
                 if (c.Trigger == comd.Trigger)
@@ -66,11 +119,12 @@ namespace BotForm
         internal void WriteToFile()
         {
             //todo make this work with the dels
-            Command[] todos = GetAllCommands();
+            Command[] todos = GetAllCommands(TwitchChatBot.THE_MAN);
             string write = "";
             for(int i = 0; i < todos.Length; i++)
             {
                 //Θ = beginning, ☻ = end
+                if (todos[i].Trigger == "!commands" || todos[i].Trigger == "!uptime") continue;
                 write += "Θ" + todos[i].Trigger + "," + todos[i].ToDo  + "NEW_LINE";
             }
             TwitchChatBot.me.cmdsFromFile.WriteAllText(write);
@@ -95,6 +149,9 @@ namespace BotForm
                 ret[i] = new Command(trigger, todo);
                 
             }
+
+            
+
             return ret;
             
             
@@ -128,9 +185,9 @@ namespace BotForm
 
         internal string[] GetAllTriggers()
         {
-            Command[] use = GetAllCommands();
+            Command[] use = GetAllCommands(TwitchChatBot.THE_MAN);
             string[] ret = new string[use.Length];
-            for(int i = 0; i < GetAllCommands().Length; i++)
+            for(int i = 0; i < GetAllCommands(TwitchChatBot.THE_MAN).Length; i++)
             {
                 ret[i] = use[i].Trigger;
             }

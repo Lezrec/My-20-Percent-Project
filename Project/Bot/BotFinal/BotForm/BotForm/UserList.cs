@@ -21,6 +21,7 @@ namespace BotForm
 
         public void Fill(User[] users)
         {
+            this.users = new List<User>();
             foreach(User usr in users)
             {
                 this.users.Add(usr);

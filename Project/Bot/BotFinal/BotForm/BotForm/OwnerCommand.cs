@@ -35,7 +35,19 @@ namespace BotForm
         {
             if (user.Priority >= 2)
             {
-                base.Execute();
+                if (TwitchChatBot.me.timer.TotalElapsedSeconds - lastExecuted > 5)
+                {
+                    if (myTodo is string)
+                    {
+                        TwitchChatBot.me.Client.SendChatMessage((string)myTodo);
+                    }
+                    else if (myTodo is delToDo)
+                    {
+                        myTodo = (delToDo)myTodo;
+                        myTodo();
+                    }
+                    lastExecuted = TwitchChatBot.me.timer.TotalElapsedSeconds;
+                }
             }
         }
 

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BotForm
 {
-    internal class Word :BotRelatedObject
+    internal class Word : BotRelatedObject
     {
+
         public enum WordState
         {
             Restricted,
@@ -48,6 +49,21 @@ namespace BotForm
         public bool IsRestricted
         {
             get { return state.Equals(WordState.Restricted); }
+        }
+
+        public void Restrict()
+        {
+            state = WordState.Restricted;
+        }
+
+        public void Ban()
+        {
+            state = WordState.Banned;
+        }
+
+        public void Allow()
+        {
+            state = WordState.Allowed;
         }
 
         public WordState State

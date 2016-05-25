@@ -11,9 +11,11 @@ namespace BotForm
     {
         private LinkedList<OwnerCommand> OwnerCommands = new LinkedList<OwnerCommand>();
         private bool comingFromFile;
+        private bool addedBase;
 
         public OwnerCommandList()
         {
+            addedBase = false;
             WriteFromFileToList();
         }
 
@@ -46,6 +48,23 @@ namespace BotForm
 
         internal OwnerCommand[] GetAllOwnerCommands()
         {
+            if (!addedBase)
+            {
+                OwnerCommand.delToDo ownerCmdDel = () =>
+                {
+                    string x = "Owner Commands: ";
+                    for (int i = 0; i < OwnerCommands.ToArray<OwnerCommand>().Length; i++)
+                    {
+                        x += $"{OwnerCommands.ToArray<OwnerCommand>()[i].Trigger}, ";
+                    }
+                    x = x.Substring(0, x.Length - 2);
+                    x += ".";
+                    TwitchChatBot.me.Client.Whisper(x, new Owner(TwitchChatBot.me.ChannelIn.Name,1));
+                };
+                OwnerCommand oCmds = new OwnerCommand("!ownercommands", ownerCmdDel);
+                OwnerCommands.AddFirst(oCmds);
+                addedBase = true;
+            }
             return OwnerCommands.ToArray<OwnerCommand>();
         }
 
@@ -65,7 +84,7 @@ namespace BotForm
 
         internal void WriteToFile()
         {
-            //todo make this work with the dels
+            
             OwnerCommand[] todos = GetAllOwnerCommands();
             string write = "";
             for (int i = 0; i < todos.Length; i++)

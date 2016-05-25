@@ -71,8 +71,16 @@ namespace BotForm
 
         public void WriteAllText(string text)
         {
-            EditDelegate del = n => File.WriteAllText(myFileDir , n);
-            ExecuteEditDelegate(del, text);
+            try
+            {
+                EditDelegate del = n => File.WriteAllText(myFileDir, n);
+                ExecuteEditDelegate(del, text);
+            }
+            catch(Exception e)
+            {
+                TwitchChatBot.me.AddHappening(this, new Happening(Happening.State.Error, "Empty text"));
+            }
+            
         }
 
         public int GetTotalLength

@@ -33,6 +33,7 @@ namespace BotForm
         internal FileEditor myEditor;
         internal static UserList myUsers = new UserList();
         internal static ModList myMods = new ModList();
+        internal ChatLog chatLog;
 
         private object loadObj;
         private EventArgs loadEventArgs;
@@ -47,7 +48,7 @@ namespace BotForm
             
             me = this;
             
-            ChannelIn = new Channel("shmellyorc"); //start in my channel because why not :)
+            ChannelIn = new Channel("lezrecop"); //start in my channel because why not :)
             Client = new BotClient();
             Scrubber = new MessageScrubber();
         }
@@ -98,10 +99,12 @@ namespace BotForm
                 {
                     timer.Start();
                     Client.JoinChannel(ChannelIn);
+                    label3.Text = $"Current Channel: {ChannelIn.Name}";
                     cmdList = new CommandList();
                     modCmdList = new ModCommandList();
                     ownerCmdList = new OwnerCommandList();
                     cmdList.UpdateGUI();
+                    chatLog = new ChatLog(ChannelIn);
                 }
                 else
                 {
@@ -143,7 +146,7 @@ namespace BotForm
             string prev = cmdText.Text;
             prev += text + Environment.NewLine ;
             cmdText.Text = prev;
-            cmdText.Update();
+            //cmdText.Update();
         }
 
         public void WriteToCMDWhatItDo(string text)
@@ -152,13 +155,125 @@ namespace BotForm
             string prev = whatItDoText.Text;
             prev += text + Environment.NewLine;
             whatItDoText.Text = prev;
-            whatItDoText.Update();
+           // whatItDoText.Update();
         }
 
         public void WipeCommands()
         {
-            whatItDoText.Text = "";
-            cmdText.Text = "";
+            whatItDoText.Text = " ";
+            cmdText.Text = " ";
+        }
+
+        private void comdB_Click(object sender, EventArgs e)
+        {
+            if (trigBox.Text == "")
+            {
+                return;
+            }
+            if (trigBox.Text.Substring(0,1) != "!")
+            {
+                trigBox.Text = "!" + trigBox.Text;
+            }
+            string trigger = trigBox.Text;
+            string todo = doBox.Text;
+            for (int i = 0; i < me.cmdList.GetAllTriggers().Length; i++)
+            {
+                if (trigger == me.cmdList.GetAllTriggers()[i])
+                {
+                    return; //makes sure that you cant add a command that does 2 things
+                }
+            }
+
+            Command command = new Command(trigger, todo);
+            me.cmdList.AddToHead(command);
+            GuiManager.WriteToCommands();
+            trigBox.Text = "";
+            doBox.Text = "";
+        }
+
+        private void modCmdB_Click(object sender, EventArgs e)
+        {
+            if (trigBox.Text == "")
+            {
+                return;
+            }
+            if (trigBox.Text.Substring(0, 1) != "!")
+            {
+                trigBox.Text = "!" + trigBox.Text;
+            }
+            string trigger = trigBox.Text;
+            string todo = doBox.Text;
+            for (int i = 0; i < TwitchChatBot.me.modCmdList.GetAllTriggers().Length; i++)
+            {
+                if (trigger == TwitchChatBot.me.modCmdList.GetAllTriggers()[i])
+                {
+                    return; //makes sure that you cant add a command that does 2 things
+                }
+            }
+
+            ModCommand command = new ModCommand(trigger, todo);
+            TwitchChatBot.me.modCmdList.AddToHead(command);
+            trigBox.Text = "";
+            doBox.Text = "";
+        }
+
+        private void ownerCmdB_Click(object sender, EventArgs e)
+        {
+            if (trigBox.Text == "")
+            {
+                return;
+            }
+            if (trigBox.Text.Substring(0, 1) != "!")
+            {
+                trigBox.Text = "!" + trigBox.Text;
+            }
+            string trigger = trigBox.Text;
+            string todo = doBox.Text;
+            for (int i = 0; i < TwitchChatBot.me.ownerCmdList.GetAllTriggers().Length; i++)
+            {
+                if (trigger == TwitchChatBot.me.ownerCmdList.GetAllTriggers()[i])
+                {
+                    return; //makes sure that you cant add a command that does 2 things
+                }
+            }
+
+            OwnerCommand command = new OwnerCommand(trigger, todo);
+            TwitchChatBot.me.ownerCmdList.AddToHead(command);
+            trigBox.Text = "";
+            doBox.Text = "";
+        }
+
+        private void banB_Click(object sender, EventArgs e)
+        {
+            me.Client.SendChatMessage($"/ban {banBox.Text.ToLower()}");
+            banBox.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int secs = 0;
+            try
+            {
+                secs = int.Parse(secondsBox.Text);
+            }
+            catch(Exception ea)
+            {
+                secs = 600;
+            }
+            me.Client.SendChatMessage($"/timeout {timeoutBox.Text.ToLower()} {secs}");
+        }
+
+        private void chB_Click(object sender, EventArgs e)
+        {
+            if (chBox.Text.Trim() != "")
+            {
+                string chan = chBox.Text;
+                me.Client.JoinChannel(new Channel(chan.ToLower()));
+                label3.Text = $"Current Channel: {chan}";
+                chBox.Text = "";
+                cmdList.UpdateGUI();
+            }
+            
         }
     }
 }

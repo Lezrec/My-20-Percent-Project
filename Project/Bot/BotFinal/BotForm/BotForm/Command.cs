@@ -11,6 +11,7 @@ namespace BotForm
         private string messageToDo;
         private string messageTrigger;
         private dynamic myTodo;
+        public static int lastExecuted;
 
         internal delegate void delToDo();
 
@@ -56,15 +57,20 @@ namespace BotForm
 
         public void Execute()
         {
-            if (myTodo is string)
+            if (TwitchChatBot.me.timer.TotalElapsedSeconds - lastExecuted > 5)
             {
-                TwitchChatBot.me.Client.SendChatMessage((string)myTodo);
+                if (myTodo is string)
+                {
+                    TwitchChatBot.me.Client.SendChatMessage((string)myTodo);
+                }
+                else if (myTodo is delToDo)
+                {
+                    myTodo = (delToDo)myTodo;
+                    myTodo();
+                }
+                lastExecuted = TwitchChatBot.me.timer.TotalElapsedSeconds;
             }
-            else if (myTodo is delToDo)
-            {
-                myTodo = (delToDo)myTodo;
-                myTodo();
-            }
+            
         }
 
         public void SendData()
